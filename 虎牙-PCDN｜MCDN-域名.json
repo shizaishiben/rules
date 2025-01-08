@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain_suffix": [
+        ".va.huya.com",
+        "statwup.huya.com",
+        ".ppio.cloud",
+        ".pp.io"
+      ]
+    },
+    {
+      "type": "logical",
+      "mode": "and",
+      "rules": [
+        {
+          "domain": "bd.p2p.huya.com",
+          "invert": true
+        },
+        {
+          "domain_suffix": ".p2p.huya.com"
+        }
+      ]
+    }
+  ]
+}
