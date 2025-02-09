@@ -1,0 +1,37 @@
+name: Convert JSON to SRS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+
+      - name: Install Sing-Box
+        run: |
+          git clone https://github.com/SagerNet/sing-box.git
+          cd sing-box
+          go build -o sing-box
+
+      - name: Convert JSON to SRS
+        run: |
+          mkdir -p output
+          ./sing-box encode -c ./rules/rules.json -o ./output/rules.srs
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: rules.srs
+          path: ./output/rules.srs
