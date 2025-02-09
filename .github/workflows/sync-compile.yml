@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  SING_BOX_VERSION: 1.10.0-beta.4
+  SING_BOX_VERSION: 1.12.0-alpha.4
 
 jobs:
   sync_and_compile:
@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Git user
       run: |
