@@ -30,8 +30,8 @@ jobs:
           mkdir -p output
           ./sing-box encode -c ./rules/rules.json -o ./output/rules.srs
           
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2  # 使用 v2 版本
+      - name: Upload Artifact using @actions/artifact
+        uses: actions/artifact@v3  # 使用新的 artifact Action
         with:
           name: rules.srs
           path: ./output/rules.srs
