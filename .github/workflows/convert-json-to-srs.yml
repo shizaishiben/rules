@@ -31,7 +31,7 @@ jobs:
           ./sing-box encode -c ./rules/rules.json -o ./output/rules.srs
           
       - name: Upload Artifact
-        uses: actions/upload-artifact@latest  # 使用最新版本
+        uses: actions/upload-artifact@v3.2  # 使用明确的 v3.2 版本
         with:
           name: rules.srs
           path: ./output/rules.srs
