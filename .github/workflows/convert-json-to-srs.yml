@@ -1,37 +1,55 @@
-name: Convert JSON to SRS
+name: Sync and Compile Sing-Box Rules
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:  # 允许手动触发
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
-  convert:
+  sync_and_compile:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout the repository
+      uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.20'
+    - name: Set up Git user
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Install Sing-Box
-        run: |
-          git clone https://github.com/SagerNet/sing-box.git
-          cd sing-box
-          go build -o sing-box
+    - name: Install sing-box
+      run: |
+        curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.10.0-alpha.29/sing-box-1.10.0-alpha.29-linux-amd64.tar.gz
+        tar -xzf sing-box.tar.gz
+        chmod +x sing-box-1.10.0-alpha.29-linux-amd64/sing-box
+        sudo mv sing-box-1.10.0-alpha.29-linux-amd64/sing-box /usr/local/bin/sing-box
+        sing-box version
 
-      - name: Convert JSON to SRS
-        run: |
-          mkdir -p output
-          ./sing-box encode -c ./rules/rules.json -o ./output/rules.srs
-          
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3.3  # 使用 v3.3 或更高版本
-        with:
-          name: rules.srs
-          path: ./output/rules.srs
+    - name: Fetch and Compile Sing-Box Rules from ruleset
+      run: |
+        git remote add ruleset https://github.com/SukkaLab/ruleset.skk.moe.git
+        git fetch ruleset
+        git checkout ruleset/master -- sing-box
+        rm -rf domainset ip non_ip
+        mv sing-box/* ./
+        rm -rf sing-box sing-box-1.10.0-alpha.29-linux-amd64 sing-box.tar.gz
+        find . -type f -name "*.srs" -exec rm -f {} \;
+        find . -type f -name "*.json" -exec bash -c '
+        echo "Compiling: $1"
+        if ! sing-box rule-set compile "$1"; then
+          echo "Error compiling $1"
+          exit 1
+        fi
+        ' _ {} \;
+        git add .
+        if git diff-index --quiet HEAD --; then
+          echo "No changes to commit"
+          echo "No updates needed"
+        else
+          git commit -m "Merged sing-box directory from ruleset.skk.moe repository"
+          git push
+        fi
