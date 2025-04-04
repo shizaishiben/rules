@@ -2,12 +2,24 @@
   "version": 3,
   "rules": [
     {
-      "domain_suffix": [
+     "domain_suffix": [
         ".va.huya.com",
         "statwup.huya.com",
         ".ppio.cloud",
         ".pp.io"
       ]
+    },
+    {
+     "domain": [
+          "mcdn.bilivideo.cn",
+          "tracker.biliapi.net"
+        ],
+     "domain_regex": [
+          "stun(.*)\\.chat\\.bilibili\\.com$",
+          "(.*)-p2p-(.*)\\.chat\\.bilibili\\.com$",
+          "(.*)\\.v(.*)d\\.szbdyd\\.com$",
+          "(.*)-live-tracker-(.*)\\.chat\\.bilibili\\.com$"
+        ]
     },
     {
       "type": "logical",
