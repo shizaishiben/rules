@@ -12,6 +12,8 @@
     {
      "domain": [
           "mcdn.bilivideo.cn",
+          "cdnws.api.huya.com",
+          "diy-front.cdn.huya.com",
           "tracker.biliapi.net"
         ],
      "domain_regex": [
