@@ -61,6 +61,8 @@
     },
     {
       "process_name": [
+        "com.hush.yamby",
+        "top.ourfor.app.iplayx",
         "com.mb.android"
       ]
     }
