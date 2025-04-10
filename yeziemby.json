@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "rules": [
+    {
+        "domain": [
+          "yzyzyz.yezi.my",
+          "yyzz.yezi.my",
+          "yz.yezi.my",
+          "yzyz.yezi.my",
+          "yyds.yezi.my"
+        ]
+    }
+  ]
+}
