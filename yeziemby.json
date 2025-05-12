@@ -11,7 +11,8 @@
           "sg.yezi.my",
           "yzyz.yezi.my",
           "yyds.yezi.my"
-        ]
+        ],
+      "domain_regex": "^bai[1-4]\\.yezi\\.my$"
     }
   ]
 }
