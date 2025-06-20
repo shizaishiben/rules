@@ -4,16 +4,10 @@
     {
         "domain": [
           "gm.yezi.my",
-          "super.yezi.my",
-          "yzyzyz.yezi.my",
-          "yyzz.yezi.my",
-          "yz.yezi.my",
-          "sg.yezi.my",
-          "yzyz.yezi.my",
           "bai.yezi.my",
-          "yyds.yezi.my"
+          "bzy.yezi.my",
         ],
-      "domain_regex": "^bai[1-4]\\.yezi\\.my$"
+      "domain_regex": "^bai[1-3]\\.yezi\\.my$"
     }
   ]
 }
