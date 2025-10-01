@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  SING_BOX_VERSION: 1.12.0-beta.27
+  SING_BOX_VERSION: 1.13.0-alpha.18
 
 jobs:
   sync_and_compile:
