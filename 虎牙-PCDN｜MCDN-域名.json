@@ -7,11 +7,11 @@
         "statwup.huya.com",
         ".ppio.cloud",
         ".pp.io"
-      ]
-    },
+      ],
     "ip_cidr": [
       "203.107.1.0/24"
-    ],
+     ]
+    },
     {
      "domain": [
           "mcdn.bilivideo.cn",
@@ -41,5 +41,6 @@
     }
   ]
 }
+
 
 
