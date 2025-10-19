@@ -5,7 +5,11 @@
       "domain_suffix": [
         "gov.cn",
         "edu.cn"
-      ]
+      ],
+      "domain_keyword": [
+        "gov.cn",
+        "edu.cn"
+      ]      
     }
   ]
 }
