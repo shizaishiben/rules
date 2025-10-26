@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "rules": [
     {
       "domain": [
@@ -7,12 +7,13 @@
         "dlg.io.mi.com"
       ],
       "domain_suffix": [
-        ".ess.apple.com",
-        ".i.tplinknbu.com",
+        "ess.apple.com",
+        "i.tplinknbu.com",
         "wap-gw.tplinkcloud.com",
         "stun.tplinkcloud.com",
-        ".feishu.cn"
+        "feishu.cn"
       ]
     }
   ]
 }
+
