@@ -2,6 +2,9 @@
   "version": 4,
   "rules": [
     {
+      "domain": [
+        "eportal.jxust.edu.cn"
+      ],
       "domain_suffix": [
         "gov.cn",
         "edu.cn"
