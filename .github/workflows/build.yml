@@ -1,4 +1,4 @@
-name: Convert Mihomo Rules to Sing-Box JSON & SRS
+name: Sync and Compile Sing-Box Rules
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  convert_and_compile:
+  sync_and_compile:
     runs-on: ubuntu-latest
 
     steps:
@@ -50,38 +50,29 @@ jobs:
         curl -LO https://github.com/PuerNya/sing-srs-converter/releases/download/v3.0.0/sing-srs-converter-v3-linux-x86_64
         chmod +x sing-srs-converter-v3-linux-x86_64
         mv sing-srs-converter-v3-linux-x86_64 sing-srs-converter
-
-    # 确保 sing-srs-converter 可执行
-    - name: Ensure sing-srs-converter is executable
-      run: |
+        # 检查下载的文件是否为正确的二进制文件
         file ./sing-srs-converter
         ls -l ./sing-srs-converter
-        ./sing-srs-converter --version # 检查是否能正确执行
 
-    # 获取并转换 Mihomo 的规则文件为 sing-box 可识别的 JSON 格式
-    - name: Convert Mihomo rule files to sing-box JSON & SRS
+    # 转换规则文件并编译为 srs 格式
+    - name: Convert and compile rules
       run: |
         mkdir -p output
-
-        for f in *.yaml *.yml *.txt *.list *.mrs; do
-          [ -e "$f" ] || continue
-
-          name=$(basename "$f" | sed 's/\.[^.]*$//')
-
-          echo "Converting $f → $name.json"
-
-          ./sing-srs-converter "$f" -o "output/$name.json"
-
-          echo "Compiling $name.json → $name.srs"
-          sing-box rule-set compile "output/$name.json" -o "output/$name.srs"
+        for rule in *.yaml; do
+          echo "Converting $rule → ${rule%.yaml}.json"
+          ./sing-srs-converter $rule ${rule%.yaml}.json
+          echo "Compiling ${rule%.yaml}.json → ${rule%.yaml}.srs"
+          sing-box rule-set compile ${rule%.yaml}.json
+          mv ${rule%.yaml}.srs output/
         done
 
-    # 提交并推送更新
+    # 提交更改并推送到仓库
     - name: Commit and push changes
       run: |
         git add .
         if git diff-index --quiet HEAD --; then
           echo "No changes to commit."
         else
-          git commit -m "Updated Mihomo rules to sing-box JSON & SRS"
+          git commit -m "Updated rules (sing-box $VERSION)"
           git push
+        fi
