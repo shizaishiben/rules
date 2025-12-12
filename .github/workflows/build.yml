@@ -44,6 +44,13 @@ jobs:
         echo "Installed sing-box:"
         sing-box version
 
+    # 下载 sing-srs-converter 可执行文件
+    - name: Download sing-srs-converter
+      run: |
+        curl -LO https://github.com/PuerNya/sing-srs-converter/releases/download/v3.0.0/sing-srs-converter-v3-linux-x86_64
+        chmod +x sing-srs-converter-v3-linux-x86_64
+        mv sing-srs-converter-v3-linux-x86_64 sing-srs-converter
+
     # 获取并转换 Mihomo 的规则文件为 sing-box 可识别的 JSON 格式
     - name: Convert Mihomo rule files to sing-box JSON & SRS
       run: |
@@ -71,4 +78,3 @@ jobs:
         else
           git commit -m "Updated Mihomo rules to sing-box JSON & SRS"
           git push
-        fi
