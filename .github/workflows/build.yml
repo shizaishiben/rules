@@ -1,0 +1,102 @@
+name: Convert Mihomo Rules to Sing-Box
+
+on:
+  push:
+  schedule:
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert_rules:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set Git user
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    # ① 获取 sing-box 最新 Pre-release 版本
+    - name: Get latest sing-box pre-release version
+      id: ver
+      run: |
+        VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases \
+          | jq -r '[.[] | select(.prerelease==true)][0].tag_name')
+        VERSION=${VERSION#v}
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        echo "Using sing-box version: $VERSION"
+
+    # ② 安装 sing-box
+    - name: Install sing-box
+      run: |
+        VERSION="${{ steps.ver.outputs.VERSION }}"
+        curl -Lo sing-box.tar.gz \
+          https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz
+        tar -xzf sing-box.tar.gz
+        sudo mv sing-box-${VERSION}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
+
+    # ③ 安装 sing-srs-converter
+    - name: Install sing-srs-converter
+      run: |
+        curl -Lo converter.tar.gz \
+          https://github.com/PuerNya/sing-srs-converter/releases/latest/download/sing-srs-converter_linux_amd64.tar.gz
+        tar -xzf converter.tar.gz
+        chmod +x sing-srs-converter
+        sudo mv sing-srs-converter /usr/local/bin/
+
+    # ④ 转换根目录所有规则并自动重命名
+    - name: Convert and rename to json
+      run: |
+        set -e
+        shopt -s nullglob
+        for f in ./*.{yaml,yml,txt,list,mrs}; do
+          if [[ -f "$f" ]]; then
+            base=$(basename "$f" | sed 's/\.[^.]*$//')
+            echo "Converting: $f"
+            sing-srs-converter "$f" -o .
+
+            # 默认输出名类似： adblock.yaml.json
+            src_json="${f}.json"
+            dst_json="${base}.json"
+
+            if [[ -f "$src_json" ]]; then
+              mv "$src_json" "$dst_json"
+              echo "Renamed $src_json → $dst_json"
+            fi
+          fi
+        done
+
+    # ⑤ 编译 JSON → SRS 并自动重命名
+    - name: Compile JSON to SRS with clean names
+      run: |
+        set -e
+        for f in ./*.json; do
+          base=$(basename "$f" .json)
+          echo "Compiling: $f"
+          sing-box rule-set compile "$f"
+
+          # 默认输出为： xxx.json.srs
+          if [[ -f "${f}.srs" ]]; then
+            mv "${f}.srs" "${base}.srs"
+            echo "Renamed ${f}.srs → ${base}.srs"
+          fi
+        done
+
+    # ⑥ 提交变更
+    - name: Commit and push
+      run: |
+        git add *.json || true
+        git add *.srs || true
+
+        if git diff-index --quiet HEAD --; then
+          echo "No changes detected."
+        else
+          VERSION="${{ steps.ver.outputs.VERSION }}"
+          git commit -m "Upd
