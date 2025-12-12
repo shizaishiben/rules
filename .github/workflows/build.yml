@@ -51,6 +51,13 @@ jobs:
         chmod +x sing-srs-converter-v3-linux-x86_64
         mv sing-srs-converter-v3-linux-x86_64 sing-srs-converter
 
+    # 确保 sing-srs-converter 可执行
+    - name: Ensure sing-srs-converter is executable
+      run: |
+        file ./sing-srs-converter
+        ls -l ./sing-srs-converter
+        ./sing-srs-converter --version # 检查是否能正确执行
+
     # 获取并转换 Mihomo 的规则文件为 sing-box 可识别的 JSON 格式
     - name: Convert Mihomo rule files to sing-box JSON & SRS
       run: |
