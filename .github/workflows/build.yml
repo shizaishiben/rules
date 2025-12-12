@@ -1,41 +1,55 @@
-name: Convert Mihomo Rules to Sing-Box Ruleset
+name: Convert Mihomo Rules to Sing-Box JSON & SRS
 
 on:
   push:
   schedule:
-    - cron: "0 13 * * *"
+    - cron: '0 13 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  convert:
+  convert_and_compile:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout the repository
       uses: actions/checkout@v4
 
-    - name: Get latest pre-release version of sing-srs-converter
-      id: converter
+    - name: Set up Git user
       run: |
-        VERSION=$(curl -s https://api.github.com/repos/PuerNya/sing-srs-converter/releases \
-          | jq -r '[ .[] | select(.prerelease == true) ][0].tag_name')
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-    - name: Download sing-srs-converter
+    # 自动获取最新 sing-box 版本号
+    - name: Get latest sing-box version
+      id: ver
       run: |
-        URL="https://github.com/PuerNya/sing-srs-converter/releases/download/${{ steps.converter.outputs.version }}/sing-srs-converter-v3-linux-x8664"
-        curl -Lo sing-srs-converter "$URL"
-        chmod +x sing-srs-converter
+        VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        VERSION=${VERSION#v}
+        echo "Latest version: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
+    # 下载并安装最新版本的 sing-box
+    - name: Install sing-box
+      run: |
+        VERSION="${{ steps.ver.outputs.VERSION }}"
+        echo "Using version: $VERSION"
+        curl -Lo sing-box.tar.gz \
+          https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz
+        tar -xzf sing-box.tar.gz
+        chmod +x sing-box-${VERSION}-linux-amd64/sing-box
+        sudo mv sing-box-${VERSION}-linux-amd64/sing-box /usr/local/bin/sing-box
+        echo "Installed sing-box:"
+        sing-box version
+
+    # 获取并转换 Mihomo 的规则文件为 sing-box 可识别的 JSON 格式
     - name: Convert Mihomo rule files to sing-box JSON & SRS
       run: |
         mkdir -p output
 
-        for f in *.yaml *.yml *.txt *.list *.mrs 2>/dev/null; do
+        for f in *.yaml *.yml *.txt *.list *.mrs; do
           [ -e "$f" ] || continue
 
           name=$(basename "$f" | sed 's/\.[^.]*$//')
@@ -48,17 +62,13 @@ jobs:
           sing-box rule-set compile "output/$name.json" -o "output/$name.srs"
         done
 
-    - name: Commit and Push rule updates
+    # 提交并推送更新
+    - name: Commit and push changes
       run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-
-        cp -r output/* ./
-
         git add .
         if git diff-index --quiet HEAD --; then
-          echo "No changes."
+          echo "No changes to commit."
         else
-          git commit -m "Update converted sing-box ruleset"
+          git commit -m "Updated Mihomo rules to sing-box JSON & SRS"
           git push
         fi
