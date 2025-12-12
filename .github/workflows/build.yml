@@ -1,0 +1,90 @@
+name: build
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # ① 自动获取 sing-box 最新版本号
+    - name: Get latest sing-box version
+      id: get_version
+      run: |
+        VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        VERSION=${VERSION#v}   # 去掉前面的 v
+        echo "Latest sing-box version: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+    # ② 下载并安装 sing-box
+    - name: Setup sing-box
+      run: |
+        set -Eeuo pipefail
+        VERSION="${{ steps.get_version.outputs.VERSION }}"
+        URL="https://github.com/SagerNet/sing-box/releases/download/v$VERSION/sing-box_${VERSION}_linux_amd64.deb"
+
+        echo "Downloading: $URL"
+        wget -O sing-box.deb "$URL"
+        sudo dpkg -i sing-box.deb
+
+    # ③ Python 环境
+    - name: Setup Python3
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas requests pyyaml
+
+    # ④ 下载 AdGuard 规则
+    - name: Download AdGuard list
+      run: |
+        URL="https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/BaseFilter/sections/adservers.txt"
+        OUTPUT="./rule/adservers.txt"
+
+        curl -L "$URL" -o "$OUTPUT"
+
+        if [ -s "$OUTPUT" ]; then
+          echo "Download OK."
+        else
+          echo "Download failed!"
+          exit 1
+        fi
+
+    # ⑤ 转换规则为 sing-box SRS 文件
+    - name: Convert to sing-box rule set
+      run: |
+        sing-box rule-set convert \
+          --type adguard \
+          --output ./rule/adservers.srs \
+          ./rule/adservers.txt
+
+    # ⑥ 运行你的脚本 (rule/main.py)
+    - name: Run script
+      run: python ../main.py
+      working-directory: ./rule/
+
+    # ⑦ 自动提交并推送
+    - name: Commit and push changes
+      run: |
+        git config user.email "action@github.com"
+        git config user.name "GitHub Action"
+
+        git add ./rule/*.json ./rule/*.srs ./rule/*.txt || true
+
+        if git diff --staged --quiet; then
+          echo "No changes to commit."
+          exit 0
+        else
+          VERSION="${{ steps.get_version.outputs.VERSION }}"
+          git commit -m "Update rules (sing-box $VERSION)"
+          git push
+        fi
