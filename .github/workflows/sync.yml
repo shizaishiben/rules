@@ -6,6 +6,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * *'
+
+permissions:
+  contents: write
+    
 env:
   SING_BOX_VERSION: 1.13.0-alpha.27    
 
