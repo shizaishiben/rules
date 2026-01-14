@@ -4,9 +4,11 @@
     {
         "domain": [
           "gm.yezi.my",
+          "vipzy.yezi.my",
+          "yz.200036.xyz",
           "bzy.yezi.my"
         ],
-      "domain_regex": "^bai([1-3])?\\.yezi\\.my$"
+      "domain_regex": "^bai([1-36])?\\.yezi\\.my$"
     }
   ]
 }
