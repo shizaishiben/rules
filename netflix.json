@@ -6,6 +6,12 @@
         "e13252.dscg.akamaiedge.net",
         "h-netflix.online-metrix.net"
       ],
+      "domain_keyword": [
+        "apiproxy-device-prod-nlb-",
+        "dualstack.apiproxy-",
+        "dualstack.ichnaea-web-",
+        "netflixdnstest"
+      ],
       "domain_suffix": [
         "cookielaw.org",
         "fast.com",

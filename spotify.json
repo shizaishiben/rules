@@ -10,6 +10,9 @@
         "spotify.map.fastly.net",
         "spotify.map.fastlylb.net"
       ],
+      "domain_keyword": [
+        "spotify"
+      ],
       "domain_suffix": [
         "audio-ak-spotify-com.akamaized.net",
         "byspotify.com",

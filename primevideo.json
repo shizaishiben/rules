@@ -18,6 +18,9 @@
         "static.siege-amazon.com",
         "www.amazon.com"
       ],
+      "domain_keyword": [
+        "avoddashs"
+      ],
       "domain_suffix": [
         "aiv-cdn.net",
         "aiv-delivery.net",

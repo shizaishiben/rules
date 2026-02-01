@@ -6,6 +6,9 @@
         "hk-global-bgp.hkg.speedtest.yecaoyun.com",
         "www.speedtest.net.cdn.cloudflare.net"
       ],
+      "domain_keyword": [
+        "speedtest"
+      ],
       "domain_suffix": [
         "cdnst.net",
         "cellmaps.com",
