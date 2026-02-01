@@ -22,12 +22,14 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
 
-    # ① 手动指定 sing-box 版本（只改这里）
-    - name: Set sing-box version
+    # ① 自动获取最新 pre-release 版本
+    - name: Get latest pre-release sing-box version
       id: ver
       run: |
-        VERSION="1.13.0-beta.7"
-        echo "Using sing-box version: $VERSION"
+        VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases \
+          | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
+        VERSION=${VERSION#v}
+        echo "Latest pre-release version: $VERSION"
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
     # ② 下载并安装 sing-box
@@ -73,6 +75,6 @@ jobs:
         if git diff-index --quiet HEAD --; then
           echo "No changes to commit."
         else
-          git commit -m "Updated rules (sing-box $VERSION)"
+          git commit -m "Updated rules (sing-box pre-release $VERSION)"
           git push
         fi
