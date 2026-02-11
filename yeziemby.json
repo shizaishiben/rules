@@ -3,12 +3,12 @@
   "rules": [
     {
         "domain": [
-          "gm.yezi.my",
-          "bzy.lyezi.xyz",
+          "yp.lyezi.cc",
           "yz.200036.xyz",
-          "bzy.yezi.my"
+          "zy.lyezi.xyz",
+          "bzy.lyezi.xyz"
         ],
-      "domain_regex": "^bai([1-36])?\\.yezi\\.my$"
+      "domain_regex": "^kuai[1-35]\\.lyezi\\.xyz$"
     }
   ]
 }
