@@ -80,7 +80,7 @@ jobs:
     - name: Download content
       run: |
         URL="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt"
-        OUTPUT_FILE="./rule/adservers.txt"
+        OUTPUT_FILE="./adservers.txt"
 
         curl -L $URL -o $OUTPUT_FILE
 
@@ -92,17 +92,17 @@ jobs:
         fi
     - name: Convert AdGuard DNS Filter to sing-box rule set
       run: |
-        sing-box rule-set convert --type adguard --output ./rule/adservers.srs ./rule/adservers.txt
+        sing-box rule-set convert --type adguard --output ./adservers.srs ./adservers.txt
     - name: Run script
       run: python ../main.py
-      working-directory: ./rule/
+      working-directory: ./
     - name: Commit and push config.json
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
-        git add ./rule/*.json
-        git add ./rule/*.srs
-        git add ./rule/*.txt
+        git add ./*.json
+        git add ./*.srs
+        git add ./*.txt
 
         # 检查是否有文件被修改
         if git diff --staged --quiet; then
