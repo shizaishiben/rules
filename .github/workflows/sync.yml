@@ -1,0 +1,114 @@
+name: Config Update
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: "Setup sing-box (auto latest pre-release linux_amd64 .deb)"
+      run: |
+        set -Eeuo pipefail
+
+        # 安装 jq 和 wget
+        sudo apt-get update -y
+        sudo apt-get install -y jq wget
+
+        API_URL="https://api.github.com/repos/SagerNet/sing-box/releases"
+
+        # 先尝试从最新的 prerelease 中找 linux_amd64 .deb
+        DOWNLOAD_URL=$(curl -s -H "Accept: application/vnd.github+json" \
+                           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                           "$API_URL" \
+                     | jq -r '
+                         (map(select(.prerelease == true)) | .[0] // null)
+                         | if . != null then
+                             .assets[]? | select(.name | test("linux[_-]amd64.*\\.deb$")) | .browser_download_url
+                           else
+                             empty
+                           end
+                       ' | head -n1)
+
+        # 回退：若没有 prerelease 的匹配，则从第一个正式 release 中找
+        if [ -z "$DOWNLOAD_URL" ]; then
+          DOWNLOAD_URL=$(curl -s -H "Accept: application/vnd.github+json" \
+                             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                             "$API_URL" \
+                       | jq -r '
+                           (map(select(.prerelease == false)) | .[0] // null)
+                           | if . != null then
+                               .assets[]? | select(.name | test("linux[_-]amd64.*\\.deb$")) | .browser_download_url
+                             else
+                               empty
+                             end
+                         ' | head -n1)
+        fi
+
+        if [ -z "$DOWNLOAD_URL" ]; then
+          echo "ERROR: 找不到 sing-box linux_amd64 .deb（既无 prerelease 也无正式 release 匹配）"
+          exit 1
+        fi
+
+        echo "Found sing-box .deb: $DOWNLOAD_URL"
+        echo "SING_BOX_DEB_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
+
+        wget -q -O sing-box.deb "$DOWNLOAD_URL"
+
+        if [ -s sing-box.deb ]; then
+          sudo dpkg -i sing-box.deb
+        else
+          echo "ERROR: 下载失败或文件为空"
+          exit 1
+        fi
+
+    - name: Set up Python3
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas requests pyyaml
+    - name: Download content
+      run: |
+        URL="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt"
+        OUTPUT_FILE="./rule/adservers.txt"
+
+        curl -L $URL -o $OUTPUT_FILE
+
+        if [ -f "$OUTPUT_FILE" ]; then
+          echo "Download successful: $OUTPUT_FILE"
+        else
+          echo "Download failed."
+          exit 1
+        fi
+    - name: Convert AdGuard DNS Filter to sing-box rule set
+      run: |
+        sing-box rule-set convert --type adguard --output ./rule/adservers.srs ./rule/adservers.txt
+    - name: Run script
+      run: python ../main.py
+      working-directory: ./rule/
+    - name: Commit and push config.json
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add ./rule/*.json
+        git add ./rule/*.srs
+        git add ./rule/*.txt
+
+        # 检查是否有文件被修改
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+          exit 0
+        else
+          git commit -m "Update rules"
+          git push
+        fi
