@@ -94,7 +94,7 @@ jobs:
       run: |
         sing-box rule-set convert --type adguard --output ./adservers.srs ./adservers.txt
     - name: Run script
-      run: python ../main.py
+      run: python ./main.py
       working-directory: ./
     - name: Commit and push config.json
       run: |
