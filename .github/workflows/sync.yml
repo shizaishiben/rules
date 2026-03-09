@@ -1,0 +1,79 @@
+name: Config Update
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq wget
+
+    - name: Install latest sing-box
+      run: |
+        API="https://api.github.com/repos/SagerNet/sing-box/releases"
+
+        URL=$(curl -s $API | jq -r '
+        (map(select(.prerelease==true))[0] // map(select(.prerelease==false))[0])
+        .assets[]
+        | select(.name | test("linux.*amd64.*deb"))
+        | .browser_download_url' | head -n1)
+
+        echo "Download: $URL"
+
+        wget -O sing-box.deb $URL
+        sudo dpkg -i sing-box.deb
+
+        sing-box version
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Install Python packages
+      run: |
+        pip install pandas requests pyyaml
+
+    - name: Download AdGuard rule
+      run: |
+        curl -L \
+        https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt \
+        -o adservers.txt
+
+    - name: Convert rule to sing-box
+      run: |
+        sing-box rule-set convert \
+        --type adguard \
+        --output adservers.srs \
+        adservers.txt
+
+    - name: Run Python script
+      run: |
+        ls -al
+        python main.py
+
+    - name: Commit changes
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+
+        git add *.json *.srs *.txt || true
+
+        if git diff --staged --quiet; then
+          echo "No changes"
+        else
+          git commit -m "Update rules"
+          git push
+        fi
