@@ -4,6 +4,7 @@
     {
         "domain": [
           "yp.lyezi.cc",
+          "wp.lyezi.cc",
           "ty.lyezi.xyz"
         ],
       "domain_regex": "^kuai[1-35]\\.lyezi\\.xyz$"
