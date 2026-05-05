@@ -1,12 +1,10 @@
 {
-  "version": 4,
+  "version": 5,
   "rules": [
     {
         "domain": [
           "yp.lyezi.cc",
-          "yz.200036.xyz",
-          "zy.lyezi.xyz",
-          "bzy.lyezi.xyz"
+          "ty.lyezi.xyz"
         ],
       "domain_regex": "^kuai[1-35]\\.lyezi\\.xyz$"
     }
