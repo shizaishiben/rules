@@ -5,7 +5,8 @@
         "domain": [
           "yp.lyezi.cc",
           "wp.lyezi.cc",
-          "ty.lyezi.xyz"
+          "bzy.lyezi.xyz:443",
+          "zy.lyezi.xyz:443"
         ],
       "domain_regex": "^kuai[1-35]\\.lyezi\\.xyz$"
     }
