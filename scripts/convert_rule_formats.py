@@ -210,16 +210,40 @@ def compile_singbox(json_path):
 def compile_mihomo(source_path, root, output_dir, rules):
     relative = source_path.relative_to(root).with_suffix(".list")
     list_path = output_dir / relative
-    mrs_path = list_path.with_suffix(".mrs")
     behavior, lines = build_mihomo_list(rules)
     list_path.parent.mkdir(parents=True, exist_ok=True)
     list_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    success = compile_command(
-        ["mihomo", "convert-ruleset", behavior, "text", str(list_path), str(mrs_path)],
-        f"Mihomo compile {source_path}",
-    )
-    if success:
-        print(f"[OK] {source_path} -> {list_path}, {mrs_path} ({behavior}, {len(lines)} rules)")
+
+    compilable_fields = {
+        "domain": {"domain", "domain_suffix"},
+        "ipcidr": {"ip_cidr"},
+    }
+    targets = []
+    if behavior in compilable_fields:
+        targets.append((behavior, list_path, list_path.with_suffix(".mrs"), lines))
+    else:
+        for mrs_behavior, fields in compilable_fields.items():
+            subset = {field: values for field, values in rules.items() if field in fields}
+            if not subset:
+                continue
+            subset_path = list_path.with_name(f"{list_path.stem}-{mrs_behavior}.list")
+            subset_behavior, subset_lines = build_mihomo_list(subset)
+            subset_path.write_text("\n".join(subset_lines) + "\n", encoding="utf-8")
+            targets.append((subset_behavior, subset_path, subset_path.with_suffix(".mrs"), subset_lines))
+
+    if not targets:
+        print(f"[SKIP] {source_path}: Mihomo kept the classical .list; this compiler cannot build classical MRS")
+        return True
+
+    success = True
+    for mrs_behavior, source_list, mrs_path, mrs_lines in targets:
+        compiled = compile_command(
+            ["mihomo", "convert-ruleset", mrs_behavior, "text", str(source_list), str(mrs_path)],
+            f"Mihomo compile {source_path}",
+        )
+        success = compiled and success
+        if compiled:
+            print(f"[OK] {source_path} -> {source_list}, {mrs_path} ({mrs_behavior}, {len(mrs_lines)} rules)")
     return success
 
 
