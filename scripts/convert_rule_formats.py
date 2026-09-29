@@ -9,7 +9,6 @@ import yaml
 
 
 TEXT_SUFFIXES = {".list", ".txt", ".yaml", ".yml"}
-SKIP_DIRS = {".git", ".github", ".venv", "mihomo", "node_modules", "scripts", "singbox", "venv"}
 
 TEXT_RULES = {
     "DOMAIN": "domain",
@@ -207,9 +206,8 @@ def compile_singbox(json_path):
     return success
 
 
-def compile_mihomo(source_path, root, output_dir, rules):
-    relative = source_path.relative_to(root).with_suffix(".list")
-    list_path = output_dir / relative
+def compile_mihomo(source_path, output_dir, rules):
+    list_path = output_dir / source_path.with_suffix(".list").name
     behavior, lines = build_mihomo_list(rules)
     list_path.parent.mkdir(parents=True, exist_ok=True)
     list_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -248,13 +246,9 @@ def compile_mihomo(source_path, root, output_dir, rules):
 
 
 def source_files(root):
-    for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES | {".json"}:
-            continue
-        relative = path.relative_to(root)
-        if any(part in SKIP_DIRS for part in relative.parts):
-            continue
-        yield path
+    for path in sorted(root.iterdir()):
+        if path.is_file() and path.suffix.lower() in TEXT_SUFFIXES | {".json"}:
+            yield path
 
 
 def process_file(path, root, output_dir):
@@ -279,7 +273,7 @@ def process_file(path, root, output_dir):
             if not compile_singbox(json_path):
                 return False
 
-        return compile_mihomo(path, root, output_dir, rules)
+        return compile_mihomo(path, output_dir, rules)
     except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
         print(f"[ERROR] {path}: {error}")
         return False
@@ -288,11 +282,11 @@ def process_file(path, root, output_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument("--mihomo-output", type=Path)
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
 
     root = args.root.resolve()
-    output_dir = (args.mihomo_output or root / "mihomo").resolve()
+    output_dir = (args.output_dir or root).resolve()
     files = list(source_files(root))
     if not files:
         print("No supported .txt, .list, .yaml, .yml, or .json inputs found.")

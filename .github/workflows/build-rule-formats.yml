@@ -42,11 +42,11 @@ jobs:
           url=$(curl -fsSL https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
             | jq -r '[.assets[] | select(.name | test("^mihomo-linux-amd64-v.*\\.deb$"))][0].browser_download_url')
           test -n "$url" -a "$url" != "null"
-          curl -fL "$url" -o mihomo.deb
-          mkdir -p mihomo-package
-          dpkg-deb -x mihomo.deb mihomo-package
-          chmod +x mihomo-package/usr/bin/mihomo
-          echo "$GITHUB_WORKSPACE/mihomo-package/usr/bin" >> "$GITHUB_PATH"
+          curl -fL "$url" -o "$RUNNER_TEMP/mihomo.deb"
+          mkdir -p "$RUNNER_TEMP/mihomo-package"
+          dpkg-deb -x "$RUNNER_TEMP/mihomo.deb" "$RUNNER_TEMP/mihomo-package"
+          chmod +x "$RUNNER_TEMP/mihomo-package/usr/bin/mihomo"
+          echo "$RUNNER_TEMP/mihomo-package/usr/bin" >> "$GITHUB_PATH"
 
       - name: Install Sing-box
         shell: bash
@@ -56,8 +56,8 @@ jobs:
             | jq -r '(map(select(.prerelease == true))[0] // map(select(.prerelease == false))[0]).assets[] | select(.name | test("linux.*amd64.*deb")) | .browser_download_url' \
             | head -n 1)
           test -n "$url" -a "$url" != "null"
-          curl -fL "$url" -o sing-box.deb
-          sudo dpkg -i sing-box.deb
+          curl -fL "$url" -o "$RUNNER_TEMP/sing-box.deb"
+          sudo dpkg -i "$RUNNER_TEMP/sing-box.deb"
           sing-box version
 
       - name: Convert and compile both rule formats
