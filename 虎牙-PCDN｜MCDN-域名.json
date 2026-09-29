@@ -1,43 +1,25 @@
 {
-  "version": 5,
+  "version": 4,
   "rules": [
     {
-     "domain_suffix": [
-        ".va.huya.com",
+      "domain": [
+        "cdnws.api.huya.com",
+        "diy-front.cdn.huya.com",
+        "mcdn.bilivideo.cn",
+        "tracker.biliapi.net"
+      ],
+      "domain_regex": [
+        "(.*)-live-tracker-(.*)\\.chat\\.bilibili\\.com$",
+        "(.*)-p2p-(.*)\\.chat\\.bilibili\\.com$",
+        "(.*)\\.v(.*)d\\.szbdyd\\.com$",
+        "stun(.*)\\.chat\\.bilibili\\.com$"
+      ],
+      "domain_suffix": [
+        "pp.io",
+        "ppio.cloud",
         "statwup.huya.com",
-        ".ppio.cloud",
-        ".pp.io"
-      ],    
-     "domain": [
-          "mcdn.bilivideo.cn",
-          "cdnws.api.huya.com",
-          "diy-front.cdn.huya.com",
-          "tracker.biliapi.net"
-        ],
-     "domain_regex": [
-          "stun(.*)\\.chat\\.bilibili\\.com$",
-          "(.*)-p2p-(.*)\\.chat\\.bilibili\\.com$",
-          "(.*)\\.v(.*)d\\.szbdyd\\.com$",
-          "(.*)-live-tracker-(.*)\\.chat\\.bilibili\\.com$"
-        ]
-    },
-    {
-      "type": "logical",
-      "mode": "and",
-      "rules": [
-        {
-          "domain": "bd.p2p.huya.com",
-          "invert": true
-        },
-        {
-          "domain_suffix": ".p2p.huya.com"
-        }
+        "va.huya.com"
       ]
     }
   ]
 }
-
-
-
-
-

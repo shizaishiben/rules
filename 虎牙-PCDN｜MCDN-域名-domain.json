@@ -1,0 +1,19 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain": [
+        "cdnws.api.huya.com",
+        "diy-front.cdn.huya.com",
+        "mcdn.bilivideo.cn",
+        "tracker.biliapi.net"
+      ],
+      "domain_suffix": [
+        "pp.io",
+        "ppio.cloud",
+        "statwup.huya.com",
+        "va.huya.com"
+      ]
+    }
+  ]
+}

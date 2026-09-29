@@ -1,6 +1,18 @@
 {
+  "version": 4,
   "rules": [
     {
+      "domain_keyword": [
+        "miniprogram",
+        "ntp",
+        "tencent",
+        "tenpay",
+        "wechat",
+        "weixin",
+        "wx.qlogo",
+        "wxmp",
+        "wxpay"
+      ],
       "domain_suffix": [
         "000607.com.cn",
         "000607.net",
@@ -40366,19 +40378,7 @@
         "zzyunmo.top",
         "zzzlj.cn",
         "zzzyzpw.com"
-      ],
-      "domain_keyword": [
-        "ntp",
-        "wx.qlogo",
-        "weixin",
-        "wechat",
-        "wxpay",
-        "wxmp",
-        "miniprogram",
-        "tencent",
-        "tenpay"
-      ]  
+      ]
     }
-  ],
-  "version": 5
+  ]
 }

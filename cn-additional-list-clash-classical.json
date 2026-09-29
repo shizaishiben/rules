@@ -1,4 +1,5 @@
 {
+  "version": 4,
   "rules": [
     {
       "domain_suffix": [
@@ -42531,6 +42532,5 @@
         "zzzyzpw.com"
       ]
     }
-  ],
-  "version": 4
+  ]
 }

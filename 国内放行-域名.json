@@ -1,18 +1,18 @@
 {
-  "version": 5,
+  "version": 4,
   "rules": [
     {
       "domain": [
         "eportal.jxust.edu.cn"
       ],
-      "domain_suffix": [
-        "gov.cn",
-        "edu.cn"
-      ],
       "domain_keyword": [
-        "gov.cn",
-        "edu.cn"
-      ]      
+        "edu.cn",
+        "gov.cn"
+      ],
+      "domain_suffix": [
+        "edu.cn",
+        "gov.cn"
+      ]
     }
   ]
 }

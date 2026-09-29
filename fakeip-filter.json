@@ -44,12 +44,12 @@
         "time"
       ],
       "domain_regex": [
-        "^localhost\\.[^.]+\\.weixin\\.qq\\.com$",
         "^Mijia\\sCloud$",
-        "^xbox\\.[^.]+\\.microsoft\\.com$",
-        "^xbox\\.[^.]+\\.[^.]+\\.microsoft\\.com$",
         "^[^.]+$",
-        "^[^.]+\\.[^.]+\\.xboxlive\\.com$"
+        "^[^.]+\\.[^.]+\\.xboxlive\\.com$",
+        "^localhost\\.[^.]+\\.weixin\\.qq\\.com$",
+        "^xbox\\.[^.]+\\.[^.]+\\.microsoft\\.com$",
+        "^xbox\\.[^.]+\\.microsoft\\.com$"
       ],
       "domain_suffix": [
         "126.net",
