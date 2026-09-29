@@ -8,6 +8,9 @@ on:
     - cron: '0 12 * * *'
 permissions:
   contents: write
+concurrency:
+  group: rule-repository-writer
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,6 +18,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
 
     - name: Install dependencies
       run: |
@@ -75,5 +81,5 @@ jobs:
           exit 0
         else
           git commit -m "Update rules"
-          git push
+          bash scripts/push-rule-updates.sh
         fi
