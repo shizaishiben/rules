@@ -8,11 +8,11 @@
         "cs.lyezi.xyz",
         "csyx.lyezi.xyz",
         "csx.lyezi.xyz",
-        "kuai1.lyezi.xyz",
-        "kuai2.lyezi.xyz",
-        "kuai3.lyezi.xyz",
         "yz.200036.xyz",
         "zy.lyezi.xyz"
+      ],
+      "domain_regex": [
+        "^kuai[1-3]\\.lyezi\\.xyz$"
       ]
     }
   ]
