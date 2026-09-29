@@ -49,15 +49,27 @@ jobs:
           chmod +x mihomo-package/usr/bin/mihomo
           echo "$GITHUB_WORKSPACE/mihomo-package/usr/bin" >> "$GITHUB_PATH"
 
-      - name: Compile supported Mihomo sources
-        run: python scripts/compile_mihomo.py
+      - name: Install Sing-box
+        shell: bash
+        run: |
+          set -euo pipefail
+          url=$(curl -fsSL https://api.github.com/repos/SagerNet/sing-box/releases \
+            | jq -r '(map(select(.prerelease == true))[0] // map(select(.prerelease == false))[0]).assets[] | select(.name | test("linux.*amd64.*deb")) | .browser_download_url' \
+            | head -n 1)
+          test -n "$url" -a "$url" != "null"
+          curl -fL "$url" -o sing-box.deb
+          sudo dpkg -i sing-box.deb
+          sing-box version
 
-      - name: Commit generated MRS files
+      - name: Convert and compile both rule formats
+        run: python scripts/convert_rule_formats.py
+
+      - name: Commit generated rule files
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A mihomo/
+          git add -A
           if git diff --cached --quiet; then
             echo "No generated rule changes"
           else
