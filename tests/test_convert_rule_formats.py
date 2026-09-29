@@ -62,18 +62,29 @@ class FullRebuildTests(unittest.TestCase):
         (self.root / "links.txt").write_text("https://example.com/rules.yaml\n")
         self.assertEqual([p.name for p in converter.source_files(self.root)], ["source.txt"])
         self.rebuild()
+        self.assertIn("fresh.example", (self.root / "source.srs").read_text())
         self.assertIn("fresh.example", (self.root / "source.json").read_text())
         self.assertFalse((self.root / "links.json").exists())
 
-    def test_mixed_subsets_refresh_without_becoming_inputs(self):
-        self.write_json("mixed", [{"domain": ["fresh.example"], "ip_cidr": ["192.0.2.0/24"]}])
+    def test_mixed_rules_produce_only_five_files_and_clean_legacy_subsets(self):
+        source = self.write_json("mixed", [{"domain": ["fresh.example"], "domain_suffix": ["suffix.example"], "domain_keyword": ["keyword"], "ip_cidr": ["192.0.2.0/24"]}])
+        original = source.read_bytes()
         self.write_json("mixed-domain", [{"domain": ["stale.example"]}])
+        (self.root / "mixed-domain.mrs").write_text("stale")
         for _ in range(2):
             self.assertEqual([p.name for p in converter.source_files(self.root)], ["mixed.json"])
             self.rebuild()
-            for suffix in (".json", ".list", ".srs", ".mrs"):
-                self.assertIn("fresh.example", (self.root / ("mixed-domain" + suffix)).read_text())
-                self.assertIn("192.0.2.0/24", (self.root / ("mixed-ipcidr" + suffix)).read_text())
+            self.assertEqual({p.name for p in self.root.iterdir()}, {"mixed" + ext for ext in (".json", ".srs", ".mrs", ".list", ".yaml")})
+            self.assertEqual(source.read_bytes(), original)
+            self.assertIn("keyword", (self.root / "mixed.srs").read_text())
+            self.assertEqual((self.root / "mixed.list").read_text(), "fresh.example\n+.suffix.example\n")
+
+    def test_ip_provider_uses_bare_cidrs(self):
+        self.write_json("ips", [{"ip_cidr": ["192.0.2.0/24", "2001:db8::/32"]}])
+        self.rebuild()
+        lines = (self.root / "ips.list").read_text().splitlines()
+        self.assertEqual(lines, ["192.0.2.0/24", "2001:db8::/32"])
+        self.assertEqual(converter.yaml.safe_load((self.root / "ips.yaml").read_text()), {"payload": lines})
 
     def test_standalone_list_and_yaml_sources(self):
         (self.root / "standalone.list").write_text("list.example\n")
@@ -81,6 +92,21 @@ class FullRebuildTests(unittest.TestCase):
         self.rebuild()
         self.assertIn("list.example", (self.root / "standalone.srs").read_text())
         self.assertIn("+.yaml.example", (self.root / "yaml-source.mrs").read_text())
+        self.assertTrue((self.root / "standalone.json").exists())
+        self.assertTrue((self.root / "yaml-source.json").exists())
+
+    def test_domain_yaml_matches_list_and_never_overrides_json(self):
+        source = self.write_json("domains", [{"domain": ["exact.example"], "domain_suffix": ["suffix.example"]}], version=5)
+        original = source.read_bytes()
+        self.rebuild()
+        lines = (self.root / "domains.list").read_text().splitlines()
+        self.assertEqual(lines, ["exact.example", "+.suffix.example"])
+        self.assertEqual(converter.yaml.safe_load((self.root / "domains.yaml").read_text()), {"payload": lines})
+        self.assertEqual(source.read_bytes(), original)
+        self.write_json("domains", [{"domain": ["updated.example"]}], version=5)
+        self.rebuild()
+        self.assertEqual((self.root / "domains.list").read_text(), "updated.example\n")
+        self.assertEqual([p.name for p in self.root.glob("*.json")], ["domains.json"])
 
     def test_compile_failure_fails_full_rebuild(self):
         self.write_json("broken", [{"domain": ["example.com"]}])

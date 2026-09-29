@@ -1,21 +1,35 @@
 # rules
 
-## Mihomo MRS
+Each rule set has five files with the same basename: `.json`, `.srs`, `.list`, `.yaml`, `.mrs`.
+Uploaded JSON is the source and is preserved without rewriting or creating additional JSON copies. Non-JSON sources are converted to one same-name JSON. Source text files are kept.
 
-All rule source files and generated files live in the repository root. The `Update and Build Sing-box and Mihomo Rules` workflow runs on pushes to `main`, manually, and daily at 14:31 UTC (22:31 China Standard Time). It downloads the AdGuard source and updates the sources configured in `links.txt` through `main.py`, then scans root-level `.txt`, `.list`, `.yaml`, `.yml`, and Sing-box rule-set `.json` files to convert and compile both formats. Source updates and generated files are committed and pushed together.
+The workflow refreshes upstream sources and rebuilds all root-level rule sets on every push to `main`, on manual runs, and daily at 14:31 UTC (22:31 China Standard Time). Identical output does not create a Git change. The Actions summary reports the rebuild count.
 
-Text, list, and Mihomo YAML files with a `payload` list produce a Sing-box `.json` and `.srs` beside the input. JSON files keep their source and get an `.srs` beside it. Both directions also produce a Mihomo `.list` and supported `.mrs` files beside the input.
+## Mihomo format
 
-Supported text rules include plain domains and IP-CIDRs, Mihomo classical rules, and common AdGuard domain lines such as `||example.com^`. Only rule fields supported by both formats are converted; unrelated YAML/JSON files and unsupported text lines are skipped.
+Domain providers follow the [MetaCubeX geosite layout](https://github.com/MetaCubeX/meta-rules-dat/tree/meta/geo/geosite): exact domains are bare, suffixes use `+.`, and YAML contains the same entries under `payload`.
 
-Every push to `main` (without path filters), manual run, and daily run rebuilds all root-level rule sets, including newly added files. For files sharing a name, source priority is `.yaml`, `.yml`, `.txt`, `.json`, then standalone `.list`. Edit the source, not its generated copies. In particular, `emby-域名.json` is the source of its `.list`, `.mrs`, and `.srs`; its JSON format version is preserved. `links.txt` is configuration, and `-domain`/`-ipcidr` files with an existing parent rule set are generated subsets, rebuilt from the parent. Identical output does not produce a Git change; the Actions summary reports the full rebuild count even when nothing needs committing.
+LIST:
 
-Example YAML:
+```text
+exact.example.com
++.example.org
+```
+
+YAML:
 
 ```yaml
 payload:
-  - "+.example.com"
-  - "192.0.2.0/24"
+    - exact.example.com
+    - +.example.org
 ```
 
-Mihomo `.mrs` files are compiled for `domain` and `ipcidr` behaviors. Mixed lists keep the full `.list` and get separate `-domain` and/or `-ipcidr` list/MRS outputs for the compilable subsets. Mihomo 1.19.31's classical MRS converter panics, so classical-only rules remain available as `.list` without blocking other builds. `main.py` generates JSON sources; `scripts/convert_rule_formats.py` handles compilation in the same workflow.
+Use `behavior: domain` for these providers. IP-only providers use bare IPv4/IPv6 CIDRs and `behavior: ipcidr`. JSON/SRS preserve all original matchers. Keywords, regular expressions, process rules, and other non-domain matchers are not included in domain LIST/YAML/MRS exports; omissions are reported in the build log. If a source contains both domains and IPs, its Mihomo provider contains domains. Sources without any supported domains or IPs fail explicitly.
+
+No `-domain` or `-ipcidr` copies are created. Old generated copies with those suffixes are removed after the parent rule set compiles successfully.
+
+## Source selection
+
+Generated YAML is marked with a comment and excluded from input scanning. Hand-maintained YAML is preserved. For other same-name files, precedence is `.yaml`, `.yml`, `.txt`, `.json`, then `.list`. `links.txt` is upstream configuration, not a rule set. Edit source files rather than generated outputs.
+
+`main.py` refreshes the JSON sources configured in `links.txt`; `scripts/convert_rule_formats.py` compiles them. SRS compilation uses the original input JSON, including its format version.
