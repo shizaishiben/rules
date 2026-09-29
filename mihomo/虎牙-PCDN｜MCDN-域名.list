@@ -1,0 +1,12 @@
+DOMAIN,cdnws.api.huya.com,DIRECT
+DOMAIN,diy-front.cdn.huya.com,DIRECT
+DOMAIN,mcdn.bilivideo.cn,DIRECT
+DOMAIN,tracker.biliapi.net,DIRECT
+DOMAIN-REGEX,(.*)-live-tracker-(.*)\.chat\.bilibili\.com$,DIRECT
+DOMAIN-REGEX,(.*)-p2p-(.*)\.chat\.bilibili\.com$,DIRECT
+DOMAIN-REGEX,(.*)\.v(.*)d\.szbdyd\.com$,DIRECT
+DOMAIN-REGEX,stun(.*)\.chat\.bilibili\.com$,DIRECT
++.pp.io
++.ppio.cloud
++.statwup.huya.com
++.va.huya.com

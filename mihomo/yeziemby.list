@@ -1,0 +1,6 @@
+DOMAIN,bzy.lyezi.xyz,DIRECT
+DOMAIN,cs.lyezi.xyz,DIRECT
+DOMAIN,wp.lyezi.cc,DIRECT
+DOMAIN,yp.lyezi.cc,DIRECT
+DOMAIN,zy.lyezi.xyz,DIRECT
+DOMAIN-REGEX,^kuai[1-35]\.lyezi\.xyz$,DIRECT

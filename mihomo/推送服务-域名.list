@@ -1,0 +1,2 @@
+DOMAIN-REGEX,^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$,DIRECT
++.push.apple.com
