@@ -32,6 +32,9 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install --upgrade pandas requests PyYAML
 
+      - name: Test rule source selection and full rebuild
+        run: python -m unittest discover -s tests -v
+
       - name: Install Mihomo
         shell: bash
         run: |
@@ -68,7 +71,7 @@ jobs:
       - name: Update linked rule sources
         run: python main.py
 
-      - name: Convert and compile both rule formats
+      - name: Rebuild all repository rule sets
         run: python scripts/convert_rule_formats.py
 
       - name: Commit generated rule files

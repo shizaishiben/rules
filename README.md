@@ -8,6 +8,8 @@ Text, list, and Mihomo YAML files with a `payload` list produce a Sing-box `.jso
 
 Supported text rules include plain domains and IP-CIDRs, Mihomo classical rules, and common AdGuard domain lines such as `||example.com^`. Only rule fields supported by both formats are converted; unrelated YAML/JSON files and unsupported text lines are skipped.
 
+Every push to `main` (without path filters), manual run, and daily run rebuilds all root-level rule sets, including newly added files. For files sharing a name, source priority is `.yaml`, `.yml`, `.txt`, `.json`, then standalone `.list`. Edit the source, not its generated copies. In particular, `emby-域名.json` is the source of its `.list`, `.mrs`, and `.srs`; its JSON format version is preserved. `links.txt` is configuration, and `-domain`/`-ipcidr` files with an existing parent rule set are generated subsets, rebuilt from the parent. Identical output does not produce a Git change; the Actions summary reports the full rebuild count even when nothing needs committing.
+
 Example YAML:
 
 ```yaml

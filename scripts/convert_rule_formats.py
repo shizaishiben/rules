@@ -1,6 +1,7 @@
 import argparse
 import ipaddress
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -217,6 +218,7 @@ def compile_mihomo(source_path, output_dir, rules):
         "ipcidr": {"ip_cidr"},
     }
     targets = []
+    success = True
     if behavior in compilable_fields:
         targets.append((behavior, list_path, list_path.with_suffix(".mrs"), lines))
     else:
@@ -227,13 +229,18 @@ def compile_mihomo(source_path, output_dir, rules):
             subset_path = list_path.with_name(f"{list_path.stem}-{mrs_behavior}.list")
             subset_behavior, subset_lines = build_mihomo_list(subset)
             subset_path.write_text("\n".join(subset_lines) + "\n", encoding="utf-8")
+            subset_json = subset_path.with_suffix(".json")
+            subset_json.write_text(
+                json.dumps(build_singbox_json(subset), ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            success = compile_singbox(subset_json) and success
             targets.append((subset_behavior, subset_path, subset_path.with_suffix(".mrs"), subset_lines))
 
     if not targets:
         print(f"[SKIP] {source_path}: Mihomo kept the classical .list; this compiler cannot build classical MRS")
         return True
 
-    success = True
     for mrs_behavior, source_list, mrs_path, mrs_lines in targets:
         compiled = compile_command(
             ["mihomo", "convert-ruleset", mrs_behavior, "text", str(source_list), str(mrs_path)],
@@ -246,9 +253,25 @@ def compile_mihomo(source_path, output_dir, rules):
 
 
 def source_files(root):
+    # Select one source per rule set. Generated .list files must never be
+    # converted back over an authoritative JSON (including its version).
+    priority = {".yaml": 0, ".yml": 1, ".txt": 2, ".json": 3, ".list": 4}
+    sources = {}
     for path in sorted(root.iterdir()):
-        if path.is_file() and path.suffix.lower() in TEXT_SUFFIXES | {".json"}:
-            yield path
+        suffix = path.suffix.lower()
+        if not path.is_file() or suffix not in priority or path.name == "links.txt":
+            continue
+        previous = sources.get(path.stem)
+        if previous is None or priority[suffix] < priority[previous.suffix.lower()]:
+            sources[path.stem] = path
+
+    for stem, path in sorted(sources.items()):
+        # Mixed rule sets generate these subsets. Older runs also created JSON
+        # and SRS copies of them; they are outputs, not independent inputs.
+        if any(stem.endswith(tag) and stem[:-len(tag)] in sources
+               for tag in ("-domain", "-ipcidr")):
+            continue
+        yield path
 
 
 def process_file(path, root, output_dir):
@@ -293,6 +316,11 @@ def main():
         return 0
 
     failed = sum(not process_file(path, root, output_dir) for path in files)
+    summary = f"Full rebuild: {len(files)} rule sources, {len(files) - failed} succeeded, {failed} failed."
+    print(summary)
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as report:
+            report.write(summary + "\n")
     return 1 if failed else 0
 
 
