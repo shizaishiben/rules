@@ -162,8 +162,6 @@ def parse_list_file(link, output_directory):
             result_rules_str = result_rules_str.replace('\\\\', '\\')
             output_file.write(result_rules_str)
 
-        srs_path = file_name.replace(".json", ".srs")
-        os.system(f"sing-box rule-set compile --output {srs_path} {file_name}")
         return file_name
     except Exception as e:
         print(f'获取链接出错，已跳过：{link}，原因：{str(e)}')

@@ -1,4 +1,4 @@
-name: Build Sing-box and Mihomo Rule Formats
+name: Update and Build Sing-box and Mihomo Rules
 
 on:
   push:
@@ -6,11 +6,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "31 14 * * *"
-  workflow_run:
-    workflows:
-      - Update Linked Rule Sources
-    types:
-      - completed
 
 permissions:
   contents: write
@@ -21,7 +16,6 @@ concurrency:
 
 jobs:
   compile:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -36,7 +30,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install Python dependencies
-        run: python -m pip install --upgrade PyYAML
+        run: python -m pip install --upgrade pandas requests PyYAML
 
       - name: Install Mihomo
         shell: bash
@@ -63,6 +57,17 @@ jobs:
           sudo dpkg -i "$RUNNER_TEMP/sing-box.deb"
           sing-box version
 
+      - name: Download AdGuard rule source
+        shell: bash
+        run: |
+          curl --fail --show-error --location --retry 3 \
+            "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt" \
+            --output adservers.txt
+          test -s adservers.txt
+
+      - name: Update linked rule sources
+        run: python main.py
+
       - name: Convert and compile both rule formats
         run: python scripts/convert_rule_formats.py
 
@@ -75,6 +80,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated rule changes"
           else
-            git commit -m "Build Mihomo rule sets"
+            git commit -m "Update and build rule sets"
             bash scripts/push-rule-updates.sh
           fi
