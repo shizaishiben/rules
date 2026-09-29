@@ -1,6 +1,5 @@
-DOMAIN,hk-global-bgp.hkg.speedtest.yecaoyun.com,DIRECT
-DOMAIN,www.speedtest.net.cdn.cloudflare.net,DIRECT
-DOMAIN-KEYWORD,speedtest,DIRECT
+hk-global-bgp.hkg.speedtest.yecaoyun.com
+www.speedtest.net.cdn.cloudflare.net
 +.cdnst.net
 +.cellmaps.com
 +.cnspeedtest.cn

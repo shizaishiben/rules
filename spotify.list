@@ -1,10 +1,9 @@
-DOMAIN,audio4-ak-spotify-com.akamaized.net,DIRECT
-DOMAIN,cdn-spotify-experiments.conductrics.com,DIRECT
-DOMAIN,heads-ak-spotify-com.akamaized.net,DIRECT
-DOMAIN,spotify.com.edgesuite.net,DIRECT
-DOMAIN,spotify.map.fastly.net,DIRECT
-DOMAIN,spotify.map.fastlylb.net,DIRECT
-DOMAIN-KEYWORD,spotify,DIRECT
+audio4-ak-spotify-com.akamaized.net
+cdn-spotify-experiments.conductrics.com
+heads-ak-spotify-com.akamaized.net
+spotify.com.edgesuite.net
+spotify.map.fastly.net
+spotify.map.fastlylb.net
 +.audio-ak-spotify-com.akamaized.net
 +.byspotify.com
 +.heads4-ak-spotify-com.akamaized.net

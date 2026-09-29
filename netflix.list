@@ -1,9 +1,5 @@
-DOMAIN,e13252.dscg.akamaiedge.net,DIRECT
-DOMAIN,h-netflix.online-metrix.net,DIRECT
-DOMAIN-KEYWORD,apiproxy-device-prod-nlb-,DIRECT
-DOMAIN-KEYWORD,dualstack.apiproxy-,DIRECT
-DOMAIN-KEYWORD,dualstack.ichnaea-web-,DIRECT
-DOMAIN-KEYWORD,netflixdnstest,DIRECT
+e13252.dscg.akamaiedge.net
+h-netflix.online-metrix.net
 +.cookielaw.org
 +.fast.com
 +.flxvpn.net
