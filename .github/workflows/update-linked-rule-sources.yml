@@ -1,4 +1,4 @@
-name: Config Update
+name: Update Linked Rule Sources
 
 on:
   push:

@@ -1,7 +1,0 @@
-DOMAIN,apm-misaka.biliapi.net,DIRECT
-DOMAIN,this_ruleset_is_made_by_sukkaw.ruleset.skk.moe,DIRECT
-DOMAIN,upos-bstar-mirrorakam.akamaized.net,DIRECT
-DOMAIN,upos-bstar1-mirrorakam.akamaized.net,DIRECT
-+.bilibili.tv
-+.biliintl.com
-PROCESS-NAME,com.bstar.intl,DIRECT

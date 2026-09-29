@@ -1,4 +1,4 @@
-name: Compile Mihomo Rule Sets
+name: Build Sing-box and Mihomo Rule Formats
 
 on:
   push:
@@ -8,8 +8,7 @@ on:
     - cron: "31 14 * * *"
   workflow_run:
     workflows:
-      - Config Update
-      - Sync and Compile Sing-Box Rules
+      - Update Linked Rule Sources
     types:
       - completed
 
