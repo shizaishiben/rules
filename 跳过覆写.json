@@ -3,6 +3,7 @@
   "rules": [
     {
       "domain": [
+        "cloudflare-ech.com",
         "dlg.io.mi.com"
       ],
       "domain_suffix": [
