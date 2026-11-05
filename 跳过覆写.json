@@ -3,6 +3,7 @@
   "rules": [
     {
       "domain": [
+        "Mijia Cloud",
         "dlg.io.mi.com"
       ],
       "domain_suffix": [
