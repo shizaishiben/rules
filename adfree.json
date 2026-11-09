@@ -1,0 +1,499 @@
+{
+  "version": 5,
+  "rules": [
+    {
+      "domain_suffix": [
+        
+        "xhcdn.com",
+       
+        "apm-native.xiaohongshu.com",
+
+        "worldwide.sogou.com",
+
+        "shouji.sougou.com",
+
+        "openmonitor.alipay-eco.com",
+
+        "mmstat.com",
+
+        "audid-api.taobao.com",
+
+        "gm.mmstat.com",
+        "pingjs.qq.com",
+
+        "wgo.mmstat.com",
+        "pgdt.gtimg.cn",
+        "otheve.beacon.qq.com",
+        "appsupport.qq.com",
+        "msdk.qq.com",
+
+        "apd-pcdnwxlogin.teg.tencent-cloud.net",
+        "wxsnsdy.wxs.qq.com",
+
+        "guid.tpns.tencent.com",
+        "log.tpns.tencent.com",
+
+        "browser.miui.com",
+
+        "va.huya.com",
+
+        "mars.jd.com",
+
+        "heytapmobi.com",
+
+        "cfg.imtt.qq.com",
+        "soft.tbs.imtt.qq.com",
+        "res.imtt.qq.com",
+
+        "static.res.qq.com",
+
+        "adv.sec.miui.com",
+
+        "aider.meizu.com",
+        "www.meizu.com",
+        "store.meizu.com",
+
+        "aider-res.meizu.com",
+
+        "mdevstat.qqlive.qq.com",
+        "t7z.cupid.iqiyi.com",
+        "msg.video.qiyi.com",
+
+        "aegis.qq.com",
+        "ios.bugly.qq.com",
+
+        "game.weixin.qq.com",
+
+        "www.api.hybrid.intl.xiaomi.com",
+        "api.hybrid.intl.xiaomi.com",
+
+        "api.iplay.163.com",
+
+        "api.open.uc.cn",
+
+        "ossapi.baidu.com",
+
+        "mparticle.uc.cn",
+
+        "isee.weishi.qq.com",
+
+        "img14.360buyimg.com",
+
+        "midas.gtimg.cn",
+        "api.unipay.qq.com",
+
+        "mon.snssdk.com",
+        "mon.isnssdk.com",
+        "dig.bdurl.net",
+        "is-hl.snssdk.com",
+        "dig.zjurl.cn",
+        "i.snssdk.com",
+        "dm.toutiao.com",
+
+        "pp.myapp.com",
+
+        "acs4baichuan.m.taobao.com",
+
+        "s.click.taobao.com",
+        "s.click.alimama.com",
+        "s.click.tmall.com",
+
+        "ss.phncdn.com",
+        "ei.phncdn.com",
+        "dm1.phncdn.com",
+        "di.phncdn.com",
+        "cdn1d-static-shared.phncdn.com",
+        "cdn1-smallimg.phncdn.com",
+        "cn.pornhub.com",
+        "www.pornhub.com",
+
+        "sugar.zhihu.com",
+
+        "api-shoulei-ssl.xunlei.com",
+
+        "ssl-cdn.static.browser.mi-img.com",
+
+        "api.jr.mi.com",
+
+        "alissl.ucdl.pp.uc.cn",
+
+        "wx2.sinaimg.cn",
+
+        "baikebcs.bdimg.com",
+        "bkimg.cdn.bcebos.com",
+
+        "c.pc.qq.com",
+        "cdn.bootcdn.net",
+
+        "ads.privacy.qq.com",
+
+        "med-fe.cdn.bcebos.com",
+
+        "pv.sohu.com",
+
+        "f10.baidu.com",
+
+        "zhuti.xiaomi.com",
+
+        "mm1.365dmp.com",
+        "mm3.365dmp.com",
+        "sfp.safe.baidu.com",
+        "sofire.bdstatic.com",
+        "sofire.baidu.com",
+
+        "hot.browser.intl.miui.com",
+        "hot.browser.miui.com",
+
+        "sjws.ssl.qihucdn.com",
+        "mvconf.f.360.cn",
+
+        "pacaio.match.qq.com",
+
+        "emoji.uc.cn",
+        "iflow.uc.cn",
+        "iflow-api.uc.cn",
+        "iflow.uczzd.cn",
+
+        "pdds-c1-cdn.uc.cn",
+        "pdds.ucweb.com",
+
+        "appdownload.alicdn.com",
+
+        "wx.qlogo.cn",
+        "py.qlogo.cn",
+        "py2.qlogo.cn",
+        "p.qlogo.cn",
+
+        "verify.snssdk.com",
+        "mcs.snssdk.com",
+        "vcs.snssdk.com",
+
+        "o.data.mistat.xiaomi.com",
+
+        "tracker.ai.xiaomi.com",
+
+        "market.xiaomi.com",
+
+        "resolver.msg.xiaomi.net",
+        "resolver.gslb.mi-idc.com",
+        "register.xmpush.xiaomi.com",
+        "app.chat.xiaomi.net",
+        "cn.app.chat.xiaomi.net",
+        "abtest.mistat.xiaomi.com",
+        "data.mistat.xiaomi.com",
+        "cn.register.xmpush.xiaomi.com",
+        "idmb.register.xmpush.global.xiaomi.com",
+        "ru.register.xmpush.global.xiaomi.com",
+        "fr.register.xmpush.global.xiaomi.com",
+        "register.xmpush.global.xiaomi.com",
+
+        "api.g.micloud.xiaomi.net",
+
+        "tbsone.imtt.qq.com",
+
+        "u.oppomobile.com",
+
+        "k.sinaimg.cn",
+
+        "c.youdao.com",
+
+        "staticsns.cdn.bcebos.com",
+
+        "mipcache.bdstatic.com",
+
+        "acs.m.taobao.com",
+
+        "t.uc.cn",
+
+        "api-game.meizu.com",
+        "game.res.meizu.com",
+
+        "client-uc.heytapmobi.com",
+        "dragate.dc.oppomobile.com",
+        "dragate-cn.dc.heytapmobi.com",
+
+        "mix.sina.com.cn",
+        "cre.dp.sina.cn",
+        "gk.sina.cn",
+
+        "open.snssdk.com",
+
+        "count.mail.163.com",
+
+        "gw.shouji.360.cn",
+        "msedown.360safe.com",
+
+        "da.mmarket.com",
+
+        "appconf.heytapdownload.com",
+
+        "gia.jd.com",
+        "me-api.jd.com",
+        "api.m.jd.com",
+        "ms.jr.jd.com",
+        "active.jd.com",
+        "pro.m.jd.com",
+        "m.jd.watbe.top",
+        "m.jd.watbc.top",
+
+        "ecmb.bdimg.com",
+        "ecma.bdimg.com",
+
+        "udpolimenew.baidu.com",
+        "mime.baidu.com",
+
+        "amdc.m.taobao.com",
+        "click.mz.simba.taobao.com",
+        "eco.taobao.com",
+        "err.taobao.com",
+        "tunion-api.m.taobao.com",
+        "zconfig.alibabausercontent.com",
+
+        "fp-upload.dun.163.com",
+
+        "click-trk.com",
+        "clickcease.com",
+        "clickdimensions.com",
+        "clickiocdn.com",
+        "clicktale.net",
+        "intercom-clicks.com",
+        "personaclick.com",
+        "click.aliexpress.com",
+        "click.allkeyshop.com",
+        "click.alternate.de",
+        "click.member.americanexpress.com",
+        "click.appcast.io",
+        "clicks.aweber.com",
+        "click.emcom.bankofamerica.com",
+        "click.em.blizzard.com",
+        "click.myctm.canadiantire.ca",
+        "target.clickfunnels.com",
+        "click.cptrack.de",
+        "click.mc.crimsontrace.com",
+        "clickserve.dartsearch.net",
+        "click.o.delta.com",
+        "click.discord.com",
+        "click.dji.com",
+        "ad.doubleclick.net",
+        "click.fidelityinvestments.com",
+        "click.holidayinnclubemail.com",
+        "click.instantink.hpsmart.com",
+        "click.icptrack.com",
+        "click.email.jcpenney.com",
+        "click.justwatch.com",
+        "click.klarna.de",
+        "click.chp.kohls.com",
+        "click.s.kohls.com",
+        "click.e.krogermail.com",
+        "click.landsend.com",
+        "click.linksynergy.com",
+        "click.e.lowes.com",
+        "click.mail.macmillan.com",
+        "click.mlsend.com",
+        "click.email.newegg.com",
+        "click.members.nra.org",
+        "clicks.pipaffiliates.com",
+        "click.pstmrk.it",
+        "click.redditmail.com",
+        "click.royalcaribbeanmarketing.com",
+        "click.e.safelite.com",
+        "click.em.samsclub.com",
+        "click.e.sees.com",
+        "click.snapshat.com",
+        "click.email.sonos.com",
+        "click.mailing.ticketmaster.com",
+        "clicks.trx-hub.com",
+        "cdn.webclicks24.com",
+        "click.zoom.us",
+
+        "du.163.com",
+
+        "clientlogdep.music.163.com",
+        "clientlogsf.music.163.com",
+        "clientlog3.music.163.com",
+
+        "haohuo.snssdk.com",
+
+        "ad.10010.com",
+
+        "app.adjust.com",
+
+        "ads.com",
+        "ads.tiktok.com",
+        "adv.blogupp.com",
+
+        "na1r.services.adobe.com",
+        "ereg.adobe.com",
+        "lmlicenses.wip4.adobe.com",
+
+        "p3-tt.byteimg.com",
+
+        "dl.zuimeitianqi.com",
+        "toblog.ctobsnssdk.com",
+
+        "sdkconfig.ad.xiaomi.com",
+
+        "api.miui.security.xiaomi.com",
+        "api.sec.intl.miui.com",
+        "api.sec.miui.com",
+
+        "livew.l.qq.com",
+        "l.qq.com",
+
+        "is.snssdk.com",
+        "ib.snssdk.com",
+        "ic.snssdk.com",
+
+        "iwx.mail.qq.com",
+
+        "api.twitter.com",
+        "mobile.twitter.com",
+        "twitter.com",
+        "www.twitter.com",
+
+        "aq.qq.com",
+
+        "api.airpush.com",
+        "file.xmpush.xiaomi.com",
+        "api-push.meizu.com",
+        "file.xiaomi.com",
+
+        "api.huangye.miui.com",
+
+        "flash.sec.miui.com",
+        "flash.sec.intl.miui.com",
+        "staging.flash.sec.miui.com",
+
+        "static.tieba.baidu.com",
+        "gsp0.baidu.com",
+
+        "aikanvod.miguvideo.com",
+        "aikanlive.miguvideo.com",
+
+        "uc.ucweb.com",
+        "puds.ucweb.com",
+
+        "api-cn.store.heytapmobi.com",
+        "api-cn.theme.heytapmobi.com",
+
+        "a0.app.xiaomi.com",
+        "api.ad.xiaomi.com",
+        "globalapi.ad.xiaomi.com",
+
+        "ad.alimama.com",
+        "alimama.com",
+        "ad.jp",
+        "ad.ourgame.com",
+        "retcode.taobao.com",
+        "m.intl.taobao.com",
+        "advertisement.taobao.com",
+        "tbskip.taobao.com",
+
+        "live-trace.bilibili.com",
+        "g.msn.com",
+
+        "c.gj.qq.com",
+        "vd.l.qq.com",
+        "mini2015.qq.com",
+        "soup.v.qq.com",
+
+        "gsp1.baidu.com",
+        "sp0.baidu.com",
+        "sp2.baidu.com",
+        "fexclick.baidu.com",
+        "bce.baidu.com",
+        "bj.bcebos.com",
+
+        "sax.sina.com.cn",
+
+        "sdkapi.sms.mob.com",
+        "news-l.play.aiseet.atianqi.com",
+        "p-l.play.aiseet.atianqi.com",
+
+        "ad.mcloud.139.com",
+
+        "als.baidu.com",
+
+        "browser.pipe.aria.microsoft.com",
+        "evtubescms.phncdn.com",
+        "c1.skype.com",
+        "events.data.microsoft.com",
+        "mobile.pipe.aria.microsoft.com",
+
+        "imasdk.googleapis.com",
+
+        "sdk-api.beizi.biz",
+
+        "w1.kskwai.com",
+
+        "api.union.vip.com",
+
+        "gips1.baidu.com",
+        "gips2.baidu.com",
+
+        "saveu.zijieapi.com",
+        "mcs.zijieapi.com",
+        "rcs.cmpassport.com",
+        "saveu3-normal-lq.zijieapi.com",
+        "saveu5-normal-lq.zijieapi.com",
+
+        "srv.sec.miui.com",
+        "srv.sec.intl.miui.com",
+
+        "api.neixin.cn",
+
+        "sugs.m.sm.cn",
+
+        "sdk.ptqy.gitv.tv",
+
+        "android.push.126.net",
+        "httpdns.push.oppomobile.com",
+
+        "ad.12306.cn",
+        "ad.3.cn",
+        "ad.thsi.cn",
+        "ad.vivo.com.cn",
+        "ad4.on.cc",
+        "addon.dismall.com",
+        "adjs.8591.com.tw",
+        "adnet.qq.com",
+        "adnxs.com",
+        "adobedtm.com",
+        "ads.lingxing.com",
+
+        "h5vv6.video.qq.com",
+
+        "ads.cup.com.cn",
+        "analytics.95516.com"
+      ]
+    },
+    {
+      "domain_regex": [
+
+        "^p.*-ppx\\.byteimg\\.com$",
+
+        "^data\\.sec.*\\.miui\\.com$",
+        "^www\\.data\\.sec.*\\.miui\\.com$",
+
+        "^register.*mi\\.com$",
+        "^resolver.*mi\\.com$",
+
+
+        "^d.*\\.music\\.126\\.net$",
+
+        "^click\\..*\\.experian\\.com$",
+        "^klclick.*\\.com$",
+        "^click\\.microsoft.*\\.com$",
+        "^click.*\\.taobao\\.com$",
+
+        "^clientlog.*music\\.163\\.com$",
+
+        "^ulog.*\\..*\\.com$",
+
+
+
+        "^saveu.*\\.zijieapi\\.com$"
+      ]
+    }
+  ]
+}
