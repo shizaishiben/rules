@@ -1,5 +1,4 @@
 +.a0.app.xiaomi.com
-+.abtest.mistat.xiaomi.com
 +.acs.m.taobao.com
 +.acs4baichuan.m.taobao.com
 +.active.jd.com
@@ -7,7 +6,6 @@
 +.ad.12306.cn
 +.ad.3.cn
 +.ad.alimama.com
-+.ad.doubleclick.net
 +.ad.jp
 +.ad.mcloud.139.com
 +.ad.ourgame.com
@@ -23,7 +21,6 @@
 +.ads.cup.com.cn
 +.ads.lingxing.com
 +.ads.privacy.qq.com
-+.ads.tiktok.com
 +.adv.blogupp.com
 +.adv.sec.miui.com
 +.advertisement.taobao.com
@@ -38,13 +35,11 @@
 +.amdc.m.taobao.com
 +.analytics.95516.com
 +.android.push.126.net
-+.apd-pcdnwxlogin.teg.tencent-cloud.net
 +.api-cn.store.heytapmobi.com
 +.api-cn.theme.heytapmobi.com
 +.api-game.meizu.com
 +.api-push.meizu.com
 +.api-shoulei-ssl.xunlei.com
-+.api.ad.xiaomi.com
 +.api.airpush.com
 +.api.g.micloud.xiaomi.net
 +.api.huangye.miui.com
@@ -143,12 +138,10 @@
 +.count.mail.163.com
 +.cre.dp.sina.cn
 +.da.mmarket.com
-+.data.mistat.xiaomi.com
 +.di.phncdn.com
 +.dig.bdurl.net
 +.dig.zjurl.cn
 +.dl.zuimeitianqi.com
-+.dm.toutiao.com
 +.dm1.phncdn.com
 +.dragate-cn.dc.heytapmobi.com
 +.dragate.dc.oppomobile.com
@@ -188,7 +181,6 @@
 +.heytapmobi.com
 +.hot.browser.intl.miui.com
 +.hot.browser.miui.com
-+.httpdns.push.oppomobile.com
 +.i.snssdk.com
 +.ib.snssdk.com
 +.ic.snssdk.com
@@ -215,8 +207,6 @@
 +.m.jd.watbe.top
 +.market.xiaomi.com
 +.mars.jd.com
-+.mcs.snssdk.com
-+.mcs.zijieapi.com
 +.mdevstat.qqlive.qq.com
 +.me-api.jd.com
 +.med-fe.cdn.bcebos.com
@@ -240,7 +230,6 @@
 +.mvconf.f.360.cn
 +.na1r.services.adobe.com
 +.news-l.play.aiseet.atianqi.com
-+.o.data.mistat.xiaomi.com
 +.open.snssdk.com
 +.openmonitor.alipay-eco.com
 +.ossapi.baidu.com
@@ -278,7 +267,6 @@
 +.sdk-api.beizi.biz
 +.sdk.ptqy.gitv.tv
 +.sdkapi.sms.mob.com
-+.sdkconfig.ad.xiaomi.com
 +.sfp.safe.baidu.com
 +.shouji.sougou.com
 +.sjws.ssl.qihucdn.com
@@ -307,7 +295,6 @@
 +.toblog.ctobsnssdk.com
 +.tracker.ai.xiaomi.com
 +.tunion-api.m.taobao.com
-+.twitter.com
 +.u.oppomobile.com
 +.uc.ucweb.com
 +.udpolimenew.baidu.com
