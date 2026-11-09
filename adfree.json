@@ -1,0 +1,513 @@
+{
+  "version": 5,
+  "rules": [
+    {
+      "domain_suffix": [
+        // xhamster
+        "xhcdn.com",
+        // 小红书
+        "apm-native.xiaohongshu.com",
+        // 搜狗输入法快捷短语
+        "worldwide.sogou.com",
+        // 手机搜狗输入法
+        "shouji.sougou.com",
+        // 支付宝医保查询
+        "openmonitor.alipay-eco.com",
+        // 支付宝
+        "mmstat.com",
+        // 支付宝以及淘宝农场任务
+        "audid-api.taobao.com",
+        // 支付宝生活号
+        "gm.mmstat.com",
+        // 支付宝扫码支付
+        "pingjs.qq.com",
+        // 支付宝运动
+        "wgo.mmstat.com",
+        // 游戏服务器IP/TCP协议/图片服务器/获取当前时间
+        "pgdt.gtimg.cn",
+        "otheve.beacon.qq.com",
+        "appsupport.qq.com",
+        "msdk.qq.com",
+        // 微信DNS/小程序广告奖励/HTTPS检测
+        "apd-pcdnwxlogin.teg.tencent-cloud.net",
+        "wxsnsdy.wxs.qq.com",
+        // 腾讯TPNS/离线推送日志
+        "guid.tpns.tencent.com",
+        "log.tpns.tencent.com",
+        // 流氓小米浏览器
+        "browser.miui.com",
+        // 虎牙登录
+        "va.huya.com",
+        // 京东搜索页
+        "mars.jd.com",
+        // COS中转站同步
+        "heytapmobi.com",
+        // X5内核
+        "cfg.imtt.qq.com",
+        "soft.tbs.imtt.qq.com",
+        "res.imtt.qq.com",
+        // X5内核文档插件下载
+        "static.res.qq.com",
+        // 涉及流量校正以及应用列表上传
+        "adv.sec.miui.com",
+        // 魅族
+        "aider.meizu.com",
+        "www.meizu.com",
+        "store.meizu.com",
+        // 魅族天气
+        "aider-res.meizu.com",
+        // 爱奇艺、腾讯视频
+        "mdevstat.qqlive.qq.com",
+        "t7z.cupid.iqiyi.com",
+        "msg.video.qiyi.com",
+        // 腾讯活动
+        "aegis.qq.com",
+        "ios.bugly.qq.com",
+        // QQ微信小(程序)游戏
+        "game.weixin.qq.com",
+        // MIUI 快应用
+        "www.api.hybrid.intl.xiaomi.com",
+        "api.hybrid.intl.xiaomi.com",
+        // 网易某版本
+        "api.iplay.163.com",
+        // 九游游戏中心
+        "api.open.uc.cn",
+        // 百度小程序
+        "ossapi.baidu.com",
+        // UC文章
+        "mparticle.uc.cn",
+        // 微信福利/活动中心
+        "isee.weishi.qq.com",
+        // 京东图片api
+        "img14.360buyimg.com",
+        // 腾讯充值
+        "midas.gtimg.cn",
+        "api.unipay.qq.com",
+        // 皮皮虾/字节跳动
+        "mon.snssdk.com",
+        "mon.isnssdk.com",
+        "dig.bdurl.net",
+        "is-hl.snssdk.com",
+        "dig.zjurl.cn",
+        "i.snssdk.com",
+        "dm.toutiao.com",
+        // 应用宝
+        "pp.myapp.com",
+        // 淘宝授权
+        "acs4baichuan.m.taobao.com",
+        // 淘宝活动
+        "s.click.taobao.com",
+        "s.click.alimama.com",
+        "s.click.tmall.com",
+        // pornhub
+        "ss.phncdn.com",
+        "ei.phncdn.com",
+        "dm1.phncdn.com",
+        "di.phncdn.com",
+        "cdn1d-static-shared.phncdn.com",
+        "cdn1-smallimg.phncdn.com",
+        "cn.pornhub.com",
+        "www.pornhub.com",
+        // 知乎小程序
+        "sugar.zhihu.com",
+        // 迅雷影音api
+        "api-shoulei-ssl.xunlei.com",
+        // MIUI浏览器在线翻译
+        "ssl-cdn.static.browser.mi-img.com",
+        // MIUI天星金融钱包
+        "api.jr.mi.com",
+        // 豌豆荚网络下载
+        "alissl.ucdl.pp.uc.cn",
+        // 微博国际版图片保存
+        "wx2.sinaimg.cn",
+        // 百度百科
+        "baikebcs.bdimg.com",
+        "bkimg.cdn.bcebos.com",
+        // QQ安全网址访问
+        "c.pc.qq.com",
+        // cdn加速
+        "cdn.bootcdn.net",
+        // 微信广告政策
+        "ads.privacy.qq.com",
+        // 百度求医问药网
+        "med-fe.cdn.bcebos.com",
+        // 微信部分小程序登陆
+        "pv.sohu.com",
+        // 百度百家号
+        "f10.baidu.com",
+        // MIUI 主题
+        "zhuti.xiaomi.com",
+        // 爱(i)茅台
+        "mm1.365dmp.com",
+        "mm3.365dmp.com",
+        "sfp.safe.baidu.com",
+        "sofire.bdstatic.com",
+        "sofire.baidu.com",
+        // MIUI浏览器
+        "hot.browser.intl.miui.com",
+        "hot.browser.miui.com",
+        // 360清理大师
+        "sjws.ssl.qihucdn.com",
+        "mvconf.f.360.cn",
+        // 腾讯新闻
+        "pacaio.match.qq.com",
+        // UC浏览器
+        "emoji.uc.cn",
+        "iflow.uc.cn",
+        "iflow-api.uc.cn",
+        "iflow.uczzd.cn",
+        // 夸克浏览器下载插件
+        "pdds-c1-cdn.uc.cn",
+        "pdds.ucweb.com",
+        // 淘宝菜鸟裹裹
+        "appdownload.alicdn.com",
+        // QQ微信头像
+        "wx.qlogo.cn",
+        "py.qlogo.cn",
+        "py2.qlogo.cn",
+        "p.qlogo.cn",
+        // 抖音网页版验证图片
+        "verify.snssdk.com",
+        "mcs.snssdk.com",
+        "vcs.snssdk.com",
+        // 小米隐私收集
+        "o.data.mistat.xiaomi.com",
+        // 小爱同学个人信息获取
+        "tracker.ai.xiaomi.com",
+        // 小米主题设计师注册
+        "market.xiaomi.com",
+        // 部分设备的小米推送
+        "resolver.msg.xiaomi.net",
+        "resolver.gslb.mi-idc.com",
+        "register.xmpush.xiaomi.com",
+        "app.chat.xiaomi.net",
+        "cn.app.chat.xiaomi.net",
+        "abtest.mistat.xiaomi.com",
+        "data.mistat.xiaomi.com",
+        "cn.register.xmpush.xiaomi.com",
+        "idmb.register.xmpush.global.xiaomi.com",
+        "ru.register.xmpush.global.xiaomi.com",
+        "fr.register.xmpush.global.xiaomi.com",
+        "register.xmpush.global.xiaomi.com",
+        // 部分设备的小米云服务
+        "api.g.micloud.xiaomi.net",
+        // QQ浏览器插件误杀
+        "tbsone.imtt.qq.com",
+        // OPPO账号相关？
+        "u.oppomobile.com",
+        // 新浪新闻图片
+        "k.sinaimg.cn",
+        // 有道翻译官网页翻译
+        "c.youdao.com",
+        // 百度网盘签到图片界面
+        "staticsns.cdn.bcebos.com",
+        // 大众养生网
+        "mipcache.bdstatic.com",
+        // 阿里云盘网络验证码(酷安@我是真爱kun)
+        "acs.m.taobao.com",
+        // 夸克网盘扫码登陆
+        "t.uc.cn",
+        // Flyme 游戏下载(酷安@何言与君识)
+        "api-game.meizu.com",
+        "game.res.meizu.com",
+        // OPPO商店登陆
+        "client-uc.heytapmobi.com",
+        "dragate.dc.oppomobile.com",
+        "dragate-cn.dc.heytapmobi.com",
+        // 新浪新闻网页误杀
+        "mix.sina.com.cn",
+        "cre.dp.sina.cn",
+        "gk.sina.cn",
+        // 头条授权登陆
+        "open.snssdk.com",
+        // 网易年度总结
+        "count.mail.163.com",
+        // 360翻译
+        "gw.shouji.360.cn",
+        "msedown.360safe.com",
+        // 移动一键登录
+        "da.mmarket.com",
+        // OPPO应用配置
+        "appconf.heytapdownload.com",
+        // 京东
+        "gia.jd.com",
+        "me-api.jd.com",
+        "api.m.jd.com",
+        "ms.jr.jd.com",
+        "active.jd.com",
+        "pro.m.jd.com",
+        "m.jd.watbe.top",
+        "m.jd.watbc.top",
+        // 百度手机广告
+        "ecmb.bdimg.com",
+        "ecma.bdimg.com",
+        // 百度手机输入法
+        "udpolimenew.baidu.com",
+        "mime.baidu.com",
+        // 淘宝
+        "amdc.m.taobao.com",
+        "click.mz.simba.taobao.com",
+        "eco.taobao.com",
+        "err.taobao.com",
+        "tunion-api.m.taobao.com",
+        "zconfig.alibabausercontent.com",
+        // 网易光遇 sky 登录
+        // 感谢*(https://github.com/niani2)反馈
+        "fp-upload.dun.163.com",
+        // 放行一堆click
+        "click-trk.com",
+        "clickcease.com",
+        "clickdimensions.com",
+        "clickiocdn.com",
+        "clicktale.net",
+        "intercom-clicks.com",
+        "personaclick.com",
+        "click.aliexpress.com",
+        "click.allkeyshop.com",
+        "click.alternate.de",
+        "click.member.americanexpress.com",
+        "click.appcast.io",
+        "clicks.aweber.com",
+        "click.emcom.bankofamerica.com",
+        "click.em.blizzard.com",
+        "click.myctm.canadiantire.ca",
+        "target.clickfunnels.com",
+        "click.cptrack.de",
+        "click.mc.crimsontrace.com",
+        "clickserve.dartsearch.net",
+        "click.o.delta.com",
+        "click.discord.com",
+        "click.dji.com",
+        "ad.doubleclick.net",
+        "click.fidelityinvestments.com",
+        "click.holidayinnclubemail.com",
+        "click.instantink.hpsmart.com",
+        "click.icptrack.com",
+        "click.email.jcpenney.com",
+        "click.justwatch.com",
+        "click.klarna.de",
+        "click.chp.kohls.com",
+        "click.s.kohls.com",
+        "click.e.krogermail.com",
+        "click.landsend.com",
+        "click.linksynergy.com",
+        "click.e.lowes.com",
+        "click.mail.macmillan.com",
+        "click.mlsend.com",
+        "click.email.newegg.com",
+        "click.members.nra.org",
+        "clicks.pipaffiliates.com",
+        "click.pstmrk.it",
+        "click.redditmail.com",
+        "click.royalcaribbeanmarketing.com",
+        "click.e.safelite.com",
+        "click.em.samsclub.com",
+        "click.e.sees.com",
+        "click.snapshat.com",
+        "click.email.sonos.com",
+        "click.mailing.ticketmaster.com",
+        "clicks.trx-hub.com",
+        "cdn.webclicks24.com",
+        "click.zoom.us",
+        //  网易云蜗牛阅读
+        "du.163.com",
+        // 网易云音乐听歌统计
+        "clientlogdep.music.163.com",
+        "clientlogsf.music.163.com",
+        "clientlog3.music.163.com",
+        //  抖音订单
+        "haohuo.snssdk.com",
+        //  联通营业厅
+        "ad.10010.com",
+        //  play商店
+        "app.adjust.com",
+        // 抖音
+        "ads.com",
+        "ads.tiktok.com",
+        "adv.blogupp.com",
+        //  adobe
+        "na1r.services.adobe.com",
+        "ereg.adobe.com",
+        "lmlicenses.wip4.adobe.com",
+        // 第三方床图和视频网站播放需要
+        "p3-tt.byteimg.com",
+        // 最美天气图床
+        "dl.zuimeitianqi.com",
+        // 日志收集，禁用会占用大量CPU
+        "toblog.ctobsnssdk.com",
+        // 小米商店登陆
+        "sdkconfig.ad.xiaomi.com",
+        // MIUI 流量中心
+        "api.miui.security.xiaomi.com",
+        "api.sec.intl.miui.com",
+        "api.sec.miui.com",
+        // QQ直播
+        "livew.l.qq.com",
+        "l.qq.com",
+        // 抖音小程序、今日头条搜索
+        "is.snssdk.com",
+        "ib.snssdk.com",
+        "ic.snssdk.com",
+        // QQ邮箱
+        "iwx.mail.qq.com",
+        // 推特(第三方调用)
+        "api.twitter.com",
+        "mobile.twitter.com",
+        "twitter.com",
+        "www.twitter.com",
+        // QQ安全中心
+        "aq.qq.com",
+        // 小米文件下载
+        "api.airpush.com",
+        "file.xmpush.xiaomi.com",
+        "api-push.meizu.com",
+        "file.xiaomi.com",
+        // MIUI黄页
+        "api.huangye.miui.com",
+        // MIUI垃圾清理
+        "flash.sec.miui.com",
+        "flash.sec.intl.miui.com",
+        "staging.flash.sec.miui.com",
+        // 百度贴吧表情误杀
+        "static.tieba.baidu.com",
+        "gsp0.baidu.com",
+        // 咪咕爱看视频
+        "aikanvod.miguvideo.com",
+        "aikanlive.miguvideo.com",
+        // UC浏览器网盘
+        "uc.ucweb.com",
+        "puds.ucweb.com",
+        // OPPO 应用商店 主题 开屏广告
+        "api-cn.store.heytapmobi.com",
+        "api-cn.theme.heytapmobi.com",
+        // 小米桌面云备份
+        "a0.app.xiaomi.com",
+        "api.ad.xiaomi.com",
+        "globalapi.ad.xiaomi.com",
+        // 阿里巴巴
+        "ad.alimama.com",
+        "alimama.com",
+        "ad.jp",
+        "ad.ourgame.com",
+        "retcode.taobao.com",
+        "m.intl.taobao.com",
+        "advertisement.taobao.com",
+        "tbskip.taobao.com",
+        // 哔哩哔哩
+        "live-trace.bilibili.com",
+        "g.msn.com",
+        // 腾讯视频
+        "c.gj.qq.com",
+        "vd.l.qq.com",
+        "mini2015.qq.com",
+        "soup.v.qq.com",
+        // 百度贴吧
+        "gsp1.baidu.com",
+        "sp0.baidu.com",
+        "sp2.baidu.com",
+        "fexclick.baidu.com",
+        "bce.baidu.com",
+        "bj.bcebos.com",
+        // 新浪微博
+        "sax.sina.com.cn",
+        // NOMO APP
+        "sdkapi.sms.mob.com",
+        "news-l.play.aiseet.atianqi.com",
+        "p-l.play.aiseet.atianqi.com",
+        // 139邮箱
+        "ad.mcloud.139.com",
+        // 百度贴吧签到
+        "als.baidu.com",
+        // skype
+        "browser.pipe.aria.microsoft.com",
+        "evtubescms.phncdn.com",
+        "c1.skype.com",
+        "events.data.microsoft.com",
+        "mobile.pipe.aria.microsoft.com",
+        // mytvsuper
+        "imasdk.googleapis.com",
+        // 123云盘卡开屏
+        "sdk-api.beizi.biz",
+        // 快手送礼
+        "w1.kskwai.com",
+        // 唯品会APP
+        "api.union.vip.com",
+        // 百度部分UI图标
+        "gips1.baidu.com",
+        "gips2.baidu.com",
+        // 抖音人脸验证
+        "saveu.zijieapi.com",
+        "mcs.zijieapi.com",
+        "rcs.cmpassport.com",
+        "saveu3-normal-lq.zijieapi.com",
+        "saveu5-normal-lq.zijieapi.com",
+        // MIUI在线权限管理器服务获取
+        "srv.sec.miui.com",
+        "srv.sec.intl.miui.com",
+        // 美图在线聊天
+        "api.neixin.cn",
+        // 神马搜索建议
+        "sugs.m.sm.cn",
+        // 奇异果Tv
+        "sdk.ptqy.gitv.tv",
+        // 推送服务
+        "android.push.126.net",
+        "httpdns.push.oppomobile.com",
+        // 一堆ads
+        "ad.12306.cn",
+        "ad.3.cn",
+        "ad.thsi.cn",
+        "ad.vivo.com.cn",
+        "ad4.on.cc",
+        "addon.dismall.com",
+        "adjs.8591.com.tw",
+        "adnet.qq.com",
+        "adnxs.com",
+        "adobedtm.com",
+        "ads.lingxing.com",
+        // 腾讯视频第三方API
+        "h5vv6.video.qq.com",
+        // 云闪付领券
+        "ads.cup.com.cn",
+        "analytics.95516.com"
+      ]
+    },
+    {
+      "domain_regex": [
+        // 皮皮虾/字节跳动
+        "^p.*-ppx\\.byteimg\\.com$",
+        // 小米隐私收集
+        // "^data\\.mistat\\..*xiaomi\\.com$",
+        // "^www\\.data\\.mistat\\..*xiaomi\\.com$",
+        // 小米隐私收集(为了省电，所以排除)
+        // "^tracking\\..*miui\\.com$",
+        // "^www\\.tracking\\..*miui\\.com$",
+        // 小米广告配置文件
+        // "^sdkconfig\\.ad.*\\.xiaomi\\.com$",
+        // "^www\\.sdkconfig\\.ad.*\\.xiaomi\\.com$",
+        // MIUI手机管家
+        "^data\\.sec.*\\.miui\\.com$",
+        "^www\\.data\\.sec.*\\.miui\\.com$",
+        // 部分设备的小米推送
+        "^register.*mi\\.com$",
+        "^resolver.*mi\\.com$",
+        // "^.*\\.?mistat\\.xiaomi\\.com$",
+        // 网易云音乐 音效下载
+        "^d.*\\.music\\.126\\.net$",
+        // 放行一堆click
+        "^click\\..*\\.experian\\.com$",
+        "^klclick.*\\.com$",
+        "^click\\.microsoft.*\\.com$",
+        "^click.*\\.taobao\\.com$",
+        // 网易云音乐听歌统计
+        "^clientlog.*music\\.163\\.com$",
+        // 日志收集，禁用会占用大量CPU
+        "^ulog.*\\..*\\.com$",
+        // 抖音小程序、今日头条搜索
+        // "^i.*\\.snssdk\\.com$",
+        // 抖音人脸验证
+        "^saveu.*\\.zijieapi\\.com$"
+      ]
+    }
+  ]
+}
