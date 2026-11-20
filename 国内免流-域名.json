@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "rules": [
     {
       "domain_keyword": [
@@ -16,7 +16,7 @@
       "domain": [
         "www.carpetpacific.com"
       ],
-      "domain_suffix": [ 
+      "domain_suffix": [
         "carpetpacific.com",
         "000607.com.cn",
         "000607.net",
