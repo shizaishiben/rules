@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 
@@ -11,6 +12,7 @@ spec = importlib.util.spec_from_file_location(
 )
 converter = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(converter)
+import rule_set
 
 
 class FullRebuildTests(unittest.TestCase):
@@ -31,11 +33,12 @@ class FullRebuildTests(unittest.TestCase):
         else:
             source, output = Path(command[-2]), Path(command[-1])
         output.write_bytes(source.read_bytes())
-        return True
+        return True, ""
 
     def rebuild(self):
         with patch.object(converter, "compile_command", side_effect=self.fake_compile), \
-             patch("sys.argv", ["convert", "--root", str(self.root)]), \
+             patch.object(converter, "supported_rule_set_version", return_value=5), \
+             patch("sys.argv", ["convert", "--root", str(self.root), "--jobs", "1"]), \
              patch.dict("os.environ", {"GITHUB_STEP_SUMMARY": ""}):
             self.assertEqual(converter.main(), 0)
 
@@ -67,7 +70,11 @@ class FullRebuildTests(unittest.TestCase):
         self.assertFalse((self.root / "links.json").exists())
 
     def test_mixed_rules_produce_only_five_files_and_clean_legacy_subsets(self):
-        source = self.write_json("mixed", [{"domain": ["fresh.example"], "domain_suffix": ["suffix.example"], "domain_keyword": ["keyword"], "ip_cidr": ["192.0.2.0/24"]}])
+        source = self.write_json(
+            "mixed",
+            [{"domain": ["fresh.example"], "domain_suffix": ["suffix.example"], "domain_keyword": ["keyword"], "ip_cidr": ["192.0.2.0/24"]}],
+            version=5,
+        )
         original = source.read_bytes()
         self.write_json("mixed-domain", [{"domain": ["stale.example"]}])
         (self.root / "mixed-domain.mrs").write_text("stale")
@@ -94,6 +101,37 @@ class FullRebuildTests(unittest.TestCase):
         self.assertIn("+.yaml.example", (self.root / "yaml-source.mrs").read_text())
         self.assertTrue((self.root / "standalone.json").exists())
         self.assertTrue((self.root / "yaml-source.json").exists())
+        self.assertEqual(json.loads((self.root / "standalone.json").read_text())["version"], 5)
+
+    def test_existing_json_uses_the_compiler_supported_version(self):
+        source = self.write_json("upgraded", [{"domain": ["example.com"]}], version=4)
+        self.rebuild()
+        document = json.loads(source.read_text())
+        self.assertEqual(document["version"], 5)
+        self.assertEqual(document["rules"], [{"domain": ["example.com"]}])
+
+    def test_rule_set_version_tracks_the_installed_core(self):
+        with patch.object(
+            rule_set.subprocess,
+            "run",
+            return_value=SimpleNamespace(
+                returncode=0,
+                stdout="sing-box version 1.13.9\n",
+                stderr="",
+            ),
+        ):
+            self.assertEqual(converter.supported_rule_set_version(), 4)
+
+        with patch.object(
+            rule_set.subprocess,
+            "run",
+            return_value=SimpleNamespace(
+                returncode=0,
+                stdout="sing-box version 1.14.0\n",
+                stderr="",
+            ),
+        ):
+            self.assertEqual(converter.supported_rule_set_version(), 5)
 
     def test_domain_yaml_matches_list_and_never_overrides_json(self):
         source = self.write_json("domains", [{"domain": ["exact.example"], "domain_suffix": ["suffix.example"]}], version=5)
@@ -110,8 +148,9 @@ class FullRebuildTests(unittest.TestCase):
 
     def test_compile_failure_fails_full_rebuild(self):
         self.write_json("broken", [{"domain": ["example.com"]}])
-        with patch.object(converter, "compile_command", return_value=False), \
-             patch("sys.argv", ["convert", "--root", str(self.root)]), \
+        with patch.object(converter, "compile_command", return_value=(False, "compile failed")), \
+             patch.object(converter, "supported_rule_set_version", return_value=5), \
+             patch("sys.argv", ["convert", "--root", str(self.root), "--jobs", "1"]), \
              patch.dict("os.environ", {"GITHUB_STEP_SUMMARY": ""}):
             self.assertEqual(converter.main(), 1)
 

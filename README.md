@@ -1,7 +1,7 @@
 # rules
 
 Each rule set has five files with the same basename: `.json`, `.srs`, `.list`, `.yaml`, `.mrs`.
-Uploaded JSON is the source and is preserved without rewriting or creating additional JSON copies. Non-JSON sources are converted to one same-name JSON. Source text files are kept.
+Uploaded JSON remains the source; the workflow updates only its top-level rule-set `version` to the highest format version supported by the downloaded Sing-box core. Non-JSON sources are converted to one same-name JSON. Source text files are kept.
 
 The workflow refreshes upstream sources and rebuilds all root-level rule sets on every push to `main`, on manual runs, and daily at 14:31 UTC (22:31 China Standard Time). Identical output does not create a Git change. The Actions summary reports the rebuild count.
 
@@ -37,7 +37,8 @@ Generated YAML is marked with a comment and excluded from input scanning. Hand-m
 Root-level files are rule-set sources and generated artifacts only. Workflow implementation files are kept in `workflow/`:
 
 - `workflow/main.py` refreshes the JSON sources configured in `workflow/links.txt`.
-- `workflow/scripts/convert_rule_formats.py` compiles every root-level rule set.
+- `workflow/rule_set.py` contains the shared parser and Sing-box compatibility logic.
+- `workflow/scripts/convert_rule_formats.py` compiles every root-level rule set with bounded parallelism and atomic binary-output replacement.
 - `workflow/tests/` contains the workflow tests, and `workflow/requirements.txt` lists its Python dependencies.
 
-GitHub Actions configuration remains in `.github/workflows/`, as required by GitHub. SRS compilation uses the original input JSON, including its format version.
+GitHub Actions configuration remains in `.github/workflows/`, as required by GitHub. The workflow detects the installed Sing-box version before generating or compiling JSON: Sing-box 1.14.0 and newer produces rule-set version `5`, while older cores receive the latest compatible version. Use `--jobs` on either Python entrypoint to cap parallel downloads or compilations.

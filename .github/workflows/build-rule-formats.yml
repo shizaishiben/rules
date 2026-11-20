@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           url=$(curl -fsSL https://api.github.com/repos/SagerNet/sing-box/releases \
-            | jq -r '(map(select(.prerelease == true))[0] // map(select(.prerelease == false))[0]).assets[] | select(.name | test("linux.*amd64.*deb")) | .browser_download_url' \
+            | jq -r '(map(select(.prerelease == false))[0] // map(select(.prerelease == true))[0]).assets[] | select(.name | test("linux.*amd64.*deb")) | .browser_download_url' \
             | head -n 1)
           test -n "$url" -a "$url" != "null"
           curl -fL "$url" -o "$RUNNER_TEMP/sing-box.deb"
