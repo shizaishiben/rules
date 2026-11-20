@@ -30,6 +30,14 @@ No `-domain` or `-ipcidr` copies are created. Old generated copies with those su
 
 ## Source selection
 
-Generated YAML is marked with a comment and excluded from input scanning. Hand-maintained YAML is preserved. For other same-name files, precedence is `.yaml`, `.yml`, `.txt`, `.json`, then `.list`. `links.txt` is upstream configuration, not a rule set. Edit source files rather than generated outputs.
+Generated YAML is marked with a comment and excluded from input scanning. Hand-maintained YAML is preserved. For other same-name files, precedence is `.yaml`, `.yml`, `.txt`, `.json`, then `.list`. `workflow/links.txt` is upstream configuration, not a rule set. Edit source files rather than generated outputs.
 
-`main.py` refreshes the JSON sources configured in `links.txt`; `scripts/convert_rule_formats.py` compiles them. SRS compilation uses the original input JSON, including its format version.
+## Repository layout
+
+Root-level files are rule-set sources and generated artifacts only. Workflow implementation files are kept in `workflow/`:
+
+- `workflow/main.py` refreshes the JSON sources configured in `workflow/links.txt`.
+- `workflow/scripts/convert_rule_formats.py` compiles every root-level rule set.
+- `workflow/tests/` contains the workflow tests, and `workflow/requirements.txt` lists its Python dependencies.
+
+GitHub Actions configuration remains in `.github/workflows/`, as required by GitHub. SRS compilation uses the original input JSON, including its format version.

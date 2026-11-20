@@ -1,12 +1,17 @@
+import argparse
 import pandas as pd
 import re
-import concurrent.futures
 import os
 import json
 import requests
 import yaml
 import ipaddress
 from io import StringIO
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+
+REQUEST_TIMEOUT_SECONDS = 30
 
 # 映射字典
 MAP_DICT = {'DOMAIN-SUFFIX': 'domain_suffix', 'HOST-SUFFIX': 'domain_suffix', 'host-suffix': 'domain_suffix', 'DOMAIN': 'domain', 'HOST': 'domain', 'host': 'domain',
@@ -17,14 +22,14 @@ MAP_DICT = {'DOMAIN-SUFFIX': 'domain_suffix', 'HOST-SUFFIX': 'domain_suffix', 'h
 
 def read_yaml_from_url(url):
     headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT_SECONDS)
     response.raise_for_status()
     yaml_data = yaml.safe_load(response.text)
     return yaml_data
 
 def read_list_from_url(url):
     headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT_SECONDS)
     if response.status_code == 200:
         csv_data = StringIO(response.text)
         df = pd.read_csv(csv_data, header=None, names=['pattern', 'address', 'other', 'other2', 'other3'], on_bad_lines='skip')
@@ -121,11 +126,7 @@ def sort_dict(obj):
 
 def parse_list_file(link, output_directory):
     try:
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            results= list(executor.map(parse_and_convert_to_dataframe, [link]))  # 使用executor.map并行处理链接, 得到(df, rules)元组的列表
-            dfs = [df for df, rules in results]   # 提取df的内容
-            rules_list = [rules for df, rules in results]  # 提取逻辑规则rules的内容
-            df = pd.concat(dfs, ignore_index=True)  # 拼接为一个DataFrame
+        df, _ = parse_and_convert_to_dataframe(link)
         df = df[~df['pattern'].str.contains('#')].reset_index(drop=True)  # 删除pattern中包含#号的行
         df = df[df['pattern'].isin(MAP_DICT.keys())].reset_index(drop=True)  # 删除不在字典中的pattern
         df = df.drop_duplicates().reset_index(drop=True)  # 删除重复行
@@ -145,7 +146,7 @@ def parse_list_file(link, output_directory):
                 rule_entry = {pattern: [address.strip() for address in addresses]}
                 result_rules["rules"].append(rule_entry)
         # 删除 'domain_entries' 中的重复值
-        domain_entries = list(set(domain_entries))
+        domain_entries = sorted(set(domain_entries))
         if domain_entries:
             result_rules["rules"].insert(0, {'domain': domain_entries})
 
@@ -156,7 +157,10 @@ def parse_list_file(link, output_directory):
         """
 
         # 使用 output_directory 拼接完整路径
-        file_name = os.path.join(output_directory, f"{os.path.basename(link).split('.')[0]}.json")
+        source_name = Path(unquote(urlparse(link).path)).stem
+        if not source_name:
+            raise ValueError(f"URL does not include a filename: {link}")
+        file_name = os.path.join(output_directory, f"{source_name}.json")
         with open(file_name, 'w', encoding='utf-8') as output_file:
             result_rules_str = json.dumps(sort_dict(result_rules), ensure_ascii=False, indent=2)
             result_rules_str = result_rules_str.replace('\\\\', '\\')
@@ -165,21 +169,38 @@ def parse_list_file(link, output_directory):
         return file_name
     except Exception as e:
         print(f'获取链接出错，已跳过：{link}，原因：{str(e)}')
-        pass
+        return None
 
 # 读取 links.txt 中的每个链接并生成对应的 JSON 文件
-root_dir = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(root_dir, "links.txt"), 'r', encoding='utf-8') as links_file:
-    links = links_file.read().splitlines()
+def main():
+    workflow_dir = Path(__file__).resolve().parent
+    parser = argparse.ArgumentParser(description="Refresh linked rule sources.")
+    parser.add_argument("--links-file", type=Path, default=workflow_dir / "links.txt")
+    parser.add_argument("--output-dir", type=Path, default=workflow_dir.parent)
+    args = parser.parse_args()
 
-links = [l for l in links if l.strip() and not l.strip().startswith("#")]
+    links = [
+        line.strip()
+        for line in args.links_file.read_text(encoding="utf-8-sig").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    source_names = [Path(unquote(urlparse(link).path)).stem for link in links]
+    if not all(source_names) or len(source_names) != len(set(source_names)):
+        raise ValueError("configured source URLs must have unique filenames")
 
-output_dir = root_dir
-result_file_names = []
+    output_dir = args.output_dir.resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    result_file_names = [
+        parse_list_file(link, output_directory=output_dir)
+        for link in links
+    ]
+    failures = result_file_names.count(None)
+    print(f"Source refresh: {len(links)} configured, {len(links) - failures} succeeded, {failures} failed.")
+    return 1 if failures else 0
 
-for link in links:
-    result_file_name = parse_list_file(link, output_directory=output_dir)
-    result_file_names.append(result_file_name)
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 
 # 打印生成的文件名
 # for file_name in result_file_names:
